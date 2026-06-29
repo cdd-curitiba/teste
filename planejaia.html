@@ -427,6 +427,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
       <div class="profile-plan">✨ Plano ativo</div>
     </div>
     <div class="settings-list">
+      <div class="si" onclick="openCartoesModal()"><div class="si-left"><div class="si-icon"><i class="ti ti-credit-card"></i></div><div><div class="si-name">Meus cartões</div><div class="si-sub" id="cartoes-sub">2 cartões cadastrados</div></div></div><i class="ti ti-chevron-right" style="font-size:16px;color:var(--mu)"></i></div>
       <div class="si"><div class="si-left"><div class="si-icon"><i class="ti ti-bell"></i></div><div><div class="si-name">Notificações</div><div class="si-sub">Alertas e lembretes ativos</div></div></div><i class="ti ti-chevron-right" style="font-size:16px;color:var(--mu)"></i></div>
       <div class="si"><div class="si-left"><div class="si-icon"><i class="ti ti-brand-whatsapp"></i></div><div><div class="si-name">WhatsApp conectado</div><div class="si-sub">+55 41 9 ****-8888</div></div></div><i class="ti ti-check" style="font-size:16px;color:#818cf8"></i></div>
       <div class="si"><div class="si-left"><div class="si-icon"><i class="ti ti-file-export"></i></div><div><div class="si-name">Exportar relatório</div><div class="si-sub">PDF ou Excel</div></div></div><i class="ti ti-chevron-right" style="font-size:16px;color:var(--mu)"></i></div>
@@ -439,6 +440,33 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
     <div class="nav" onclick="goTo('s-cat')"><i class="ti ti-chart-pie"></i><span>categorias</span></div>
     <div class="nav" onclick="goTo('s-agenda')"><i class="ti ti-calendar-event"></i><span>agenda</span></div>
     <div class="nav on" onclick="goTo('s-profile')"><i class="ti ti-user"></i><span>perfil</span></div>
+  </div>
+</div>
+
+<!-- MODAL: CARTÕES -->
+<div class="mo" id="modal-cartoes" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="mbox" style="max-height:85dvh;display:flex;flex-direction:column">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-shrink:0">
+      <h3 style="margin:0">Meus cartões</h3>
+      <button onclick="document.getElementById('modal-cartoes').classList.remove('open')" style="background:none;border:none;color:var(--mu);font-size:20px;cursor:pointer"><i class="ti ti-x"></i></button>
+    </div>
+    <div id="cartoes-list" style="overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:10px;margin-bottom:14px"></div>
+    <div style="background:var(--pd);border:0.5px solid var(--pb);border-radius:14px;padding:14px;flex-shrink:0">
+      <p style="font-size:12px;color:var(--so);margin-bottom:10px;font-weight:500">Adicionar cartão</p>
+      <div class="mf"><label>Nome do cartão</label><input type="text" id="c-nome" placeholder="Ex: Nubank, Bradesco..."/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div class="mf"><label>Bandeira</label>
+          <select id="c-bandeira">
+            <option>Mastercard</option><option>Visa</option><option>Elo</option><option>Amex</option>
+          </select>
+        </div>
+        <div class="mf"><label>Dia vencimento</label>
+          <input type="number" id="c-venc" placeholder="Ex: 10" min="1" max="31"/>
+        </div>
+      </div>
+
+      <button class="save-btn" onclick="addCartao()" style="margin-top:4px">Adicionar</button>
+    </div>
   </div>
 </div>
 
@@ -462,16 +490,41 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
       <button class="type-btn on" id="btn-despesa" onclick="setType('despesa')">🔴 Despesa</button>
     </div>
     <div class="mf"><label>Descrição</label><input type="text" id="m-desc" placeholder="Ex: Mercado, Salário..."/></div>
-    <div class="mf"><label>Valor (R$)</label><input type="number" id="m-val" placeholder="0,00" inputmode="decimal"/></div>
+    <div class="mf"><label>Valor (R$)</label><input type="number" id="m-val" placeholder="0,00" inputmode="decimal" oninput="updateParcelaPreview()"/></div>
     <div class="mf"><label>Categoria</label><select id="m-cat"><option>Alimentação</option><option>Moradia</option><option>Transporte</option><option>Saúde</option><option>Lazer</option><option>Educação</option><option>Salário</option><option>Freelance</option><option>Outros</option></select></div>
     <div class="mf"><label>Data</label><input type="date" id="m-date"/></div>
     <div class="mf"><label>Método de pagamento</label>
-      <select id="m-method">
+      <select id="m-method" onchange="toggleParcelas(this.value)">
         <option value="Débito">💳 Débito</option>
         <option value="Crédito">💳 Crédito</option>
         <option value="PIX">⚡ PIX</option>
         <option value="Dinheiro">💵 Dinheiro</option>
       </select>
+    </div>
+    <div id="parcelas-wrap" style="display:none">
+      <div class="mf"><label>Cartão</label>
+        <select id="m-cartao">
+          <option value="">Selecione o cartão</option>
+        </select>
+      </div>
+      <div class="mf"><label>Número de parcelas</label>
+        <select id="m-parcelas" onchange="updateParcelaPreview()">
+          <option value="1">1x (à vista)</option>
+          <option value="2">2x</option>
+          <option value="3">3x</option>
+          <option value="4">4x</option>
+          <option value="5">5x</option>
+          <option value="6">6x</option>
+          <option value="7">7x</option>
+          <option value="8">8x</option>
+          <option value="9">9x</option>
+          <option value="10">10x</option>
+          <option value="12">12x</option>
+          <option value="18">18x</option>
+          <option value="24">24x</option>
+        </select>
+      </div>
+      <div id="parcela-preview" style="font-size:12px;color:var(--p);margin-bottom:12px;padding:8px 12px;background:var(--pd);border-radius:10px;display:none"></div>
     </div>
     <button class="save-btn" onclick="saveTx()">Salvar</button>
     <button class="cancel-btn" onclick="document.getElementById('modal-tx').classList.remove('open')">Cancelar</button>
@@ -519,6 +572,23 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
     <div class="cal-grid" id="cal-grid"></div>
     <p style="font-size:12px;color:var(--mu);text-align:center;margin-bottom:14px" id="cal-range-label">Toque para selecionar data inicial</p>
     <button class="save-btn" onclick="applyRange()">Aplicar período</button>
+  </div>
+</div>
+
+<!-- MODAL: MARCAR PARCELA PAGA -->
+<div class="mo" id="modal-paga" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="mbox">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h3 style="margin:0">Confirmar pagamento</h3>
+      <button onclick="document.getElementById('modal-paga').classList.remove('open')" style="background:none;border:none;color:var(--mu);font-size:20px;cursor:pointer"><i class="ti ti-x"></i></button>
+    </div>
+    <div id="paga-info" style="margin-bottom:16px"></div>
+    <div id="paga-qtd-wrap" style="display:none;margin-bottom:14px">
+      <label style="font-size:12px;color:var(--mu);display:block;margin-bottom:6px">Quantas parcelas você está pagando agora?</label>
+      <select id="paga-qtd" style="width:100%;background:#0d0d1a;border:0.5px solid var(--pb);border-radius:12px;padding:12px 14px;color:var(--tx);font-size:15px;outline:none"></select>
+    </div>
+    <button class="save-btn" onclick="confirmarPagamento()">Confirmar pagamento</button>
+    <button class="cancel-btn" onclick="document.getElementById('modal-paga').classList.remove('open')">Cancelar</button>
   </div>
 </div>
 
@@ -576,24 +646,55 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 const CATS=[{name:'Moradia',emoji:'🏠',color:'#6c63ff',limit:1500},{name:'Alimentação',emoji:'🛒',color:'#ef4444',limit:400},{name:'Transporte',emoji:'🚗',color:'#3b82f6',limit:400},{name:'Saúde',emoji:'💊',color:'#f59e0b',limit:400},{name:'Lazer',emoji:'🎮',color:'#22c55e',limit:300}];
 const EMOJIS={Alimentação:'🛒',Moradia:'🏠',Transporte:'🚗',Saúde:'💊',Lazer:'🎮',Educação:'📚',Salário:'💼',Freelance:'💻',Outros:'💰'};
 
+let txFilter='all',txSort='desc',txMethod='all';
+let txDateStart=null,txDateEnd=null;
 let txList=[
   {type:'receita',desc:'Salário',cat:'Salário',val:3200,date:'2026-06-01',emoji:'💼',method:'PIX',time:'08:00'},
   {type:'despesa',desc:'Aluguel',cat:'Moradia',val:1200,date:'2026-06-05',emoji:'🏠',method:'Débito',time:'09:30'},
   {type:'despesa',desc:'Mercado',cat:'Alimentação',val:347,date:'2026-06-20',emoji:'🛒',method:'Crédito',time:'14:22'},
+  {type:'despesa',desc:'Mercado',cat:'Alimentação',val:89,date:'2026-06-20',emoji:'🛒',method:'Dinheiro',time:'09:10'},
+  {type:'despesa',desc:'Celular (1/12)',cat:'Lazer',val:99.92,date:'2026-06-10',emoji:'📱',method:'Crédito',time:'10:00',installment:true,installmentNum:1,installmentTotal:12},
+  {type:'despesa',desc:'Celular (2/12)',cat:'Lazer',val:99.92,date:'2026-07-10',emoji:'📱',method:'Crédito',time:'10:00',installment:true,installmentNum:2,installmentTotal:12},
+  {type:'despesa',desc:'Celular (3/12)',cat:'Lazer',val:99.92,date:'2026-08-10',emoji:'📱',method:'Crédito',time:'10:00',installment:true,installmentNum:3,installmentTotal:12},
+  {type:'despesa',desc:'Notebook (1/6)',cat:'Educação',val:283.33,date:'2026-05-15',emoji:'💻',method:'Crédito',time:'14:30',installment:true,installmentNum:1,installmentTotal:6},
+  {type:'despesa',desc:'Notebook (2/6)',cat:'Educação',val:283.33,date:'2026-06-15',emoji:'💻',method:'Crédito',time:'14:30',installment:true,installmentNum:2,installmentTotal:6},
+  {type:'despesa',desc:'Notebook (3/6)',cat:'Educação',val:283.33,date:'2026-07-15',emoji:'💻',method:'Crédito',time:'14:30',installment:true,installmentNum:3,installmentTotal:6},
   {type:'despesa',desc:'Uber',cat:'Transporte',val:32,date:'2026-06-27',emoji:'🚗',method:'PIX',time:'23:47'},
   {type:'despesa',desc:'Farmácia',cat:'Saúde',val:268,date:'2026-06-22',emoji:'💊',method:'Dinheiro',time:'11:15'},
   {type:'despesa',desc:'Farmácia',cat:'Saúde',val:89,date:'2026-06-15',emoji:'💊',method:'Débito',time:'16:40'},
   {type:'despesa',desc:'Farmácia',cat:'Saúde',val:134,date:'2026-06-08',emoji:'💊',method:'PIX',time:'09:22'},
 ];
 
+let cartoes=[
+  {id:1,nome:'Nubank',bandeira:'Mastercard',vencimento:10,cor:'#8a05be'},
+  {id:2,nome:'Bradesco',bandeira:'Visa',vencimento:15,cor:'#cc0000'},
+];
+
 let compList=[
   {id:1,desc:'Reunião de equipe',date:'2026-07-01',start:'09:00',end:'10:00',rec:false,alert:3},
   {id:2,desc:'Pagamento aluguel',date:'2026-07-05',start:'08:00',end:'08:30',rec:true,freq:'monthly',alert:3},
   {id:3,desc:'Academia',date:'2026-06-30',start:'07:00',end:'08:00',rec:true,freq:'weekly',alert:1},
+  {id:10,desc:'Celular (1/12)',date:'2026-06-10',start:'08:00',end:'',rec:false,alert:3,tipo:'parcela',cartao:'Nubank'},
+  {id:11,desc:'Celular (2/12)',date:'2026-07-10',start:'08:00',end:'',rec:false,alert:3,tipo:'parcela',cartao:'Nubank'},
+  {id:12,desc:'Celular (3/12)',date:'2026-08-10',start:'08:00',end:'',rec:false,alert:3,tipo:'parcela',cartao:'Nubank'},
+  {id:13,desc:'Celular (4/12)',date:'2026-09-10',start:'08:00',end:'',rec:false,alert:3,tipo:'parcela',cartao:'Nubank'},
+  {id:14,desc:'Celular (5/12)',date:'2026-10-10',start:'08:00',end:'',rec:false,alert:3,tipo:'parcela',cartao:'Nubank'},
+  {id:15,desc:'Celular (6/12)',date:'2026-11-10',start:'08:00',end:'',rec:false,alert:3,tipo:'parcela',cartao:'Nubank'},
+  {id:16,desc:'Celular (7/12)',date:'2026-12-10',start:'08:00',end:'',rec:false,alert:3,tipo:'parcela',cartao:'Nubank'},
+  {id:17,desc:'Celular (8/12)',date:'2027-01-10',start:'08:00',end:'',rec:false,alert:3,tipo:'parcela',cartao:'Nubank'},
+  {id:18,desc:'Celular (9/12)',date:'2027-02-10',start:'08:00',end:'',rec:false,alert:3,tipo:'parcela',cartao:'Nubank'},
+  {id:19,desc:'Celular (10/12)',date:'2027-03-10',start:'08:00',end:'',rec:false,alert:3,tipo:'parcela',cartao:'Nubank'},
+  {id:20,desc:'Celular (11/12)',date:'2027-04-10',start:'08:00',end:'',rec:false,alert:3,tipo:'parcela',cartao:'Nubank'},
+  {id:21,desc:'Celular (12/12)',date:'2027-05-10',start:'08:00',end:'',rec:false,alert:3,tipo:'parcela',cartao:'Nubank'},
+  {id:30,desc:'Notebook (1/6)',date:'2026-05-15',start:'08:00',end:'',rec:false,alert:3,tipo:'parcela',cartao:'Bradesco'},
+  {id:31,desc:'Notebook (2/6)',date:'2026-06-15',start:'08:00',end:'',rec:false,alert:3,tipo:'parcela',cartao:'Bradesco'},
+  {id:32,desc:'Notebook (3/6)',date:'2026-07-15',start:'08:00',end:'',rec:false,alert:3,tipo:'parcela',cartao:'Bradesco'},
+  {id:33,desc:'Notebook (4/6)',date:'2026-08-15',start:'08:00',end:'',rec:false,alert:3,tipo:'parcela',cartao:'Bradesco'},
+  {id:34,desc:'Notebook (5/6)',date:'2026-09-15',start:'08:00',end:'',rec:false,alert:3,tipo:'parcela',cartao:'Bradesco'},
+  {id:35,desc:'Notebook (6/6)',date:'2026-10-15',start:'08:00',end:'',rec:false,alert:3,tipo:'parcela',cartao:'Bradesco'},
 ];
 
-let currentEmail='',pinValue='',txType='despesa',txFilter='all',txSort='desc';
-let txDateStart=null,txDateEnd=null;
+let currentEmail='',pinValue='',txType='despesa';
 let compTab='normal',agendaFilter='all';
 let periodStart=null,periodEnd=null;
 
@@ -720,7 +821,9 @@ function openTxDetail(idx){
 function txHtml(t,idx){
   const methodBadge=t.method?`<span style="font-size:10px;padding:2px 7px;border-radius:10px;background:${METHOD_COLOR[t.method]||'#818cf8'}22;color:${METHOD_COLOR[t.method]||'#818cf8'};margin-left:4px;font-weight:500">${t.method}</span>`:'';;
   const i=idx!==undefined?idx:txList.indexOf(t);
-  return`<div class="tx" onclick="openTxDetail(${i})"><div class="tx-icon" style="background:${t.type==='receita'?'#13113a':'#1a1a2e'}">${t.emoji||'💰'}</div><div class="tx-info"><div class="tx-name">${t.desc}</div><div class="tx-cat" style="display:flex;align-items:center;flex-wrap:wrap;gap:2px">${t.cat}${methodBadge}</div></div><div class="tx-amt ${t.type==='receita'?'gn':'rd'}">${t.type==='receita'?'+':'-'}${fmtS(t.val)}</div></div>`;
+  const paidBadge=t.pago?'<span style="font-size:10px;padding:2px 6px;border-radius:8px;background:rgba(34,197,94,.15);color:#22c55e;margin-left:4px">✓ Pago</span>':'';
+  const parcelaBadge=t.installment&&!t.pago?`<span style="font-size:10px;padding:2px 6px;border-radius:8px;background:rgba(108,99,255,.15);color:#818cf8;margin-left:4px;cursor:pointer" onclick="event.stopPropagation();openPagar(${i})">Pagar</span>`:'';
+  return`<div class="tx" onclick="openTxDetail(${i})" style="${t.pago?'opacity:.6':''}"><div class="tx-icon" style="background:${t.type==='receita'?'#13113a':'#1a1a2e'}">${t.emoji||'💰'}</div><div class="tx-info"><div class="tx-name">${t.desc}</div><div class="tx-cat" style="display:flex;align-items:center;flex-wrap:wrap;gap:2px">${t.cat}${methodBadge}${paidBadge}${parcelaBadge}</div></div><div class="tx-amt ${t.type==='receita'?'gn':'rd'}">${t.type==='receita'?'+':'-'}${fmtS(t.val)}</div></div>`;
 }
 
 // EXTRATO
@@ -735,35 +838,55 @@ function filterMethod(m){txMethod=m;renderTxFull();}
 function renderTxFull(){
   let list=txFilter==='all'?[...txList]:txList.filter(t=>t.type===txFilter);
   if(txDateStart)list=list.filter(t=>t.date>=txDateStart&&t.date<=(txDateEnd||txDateStart));
-  if(txMethod!=='all')list=list.filter(t=>t.method===txMethod);
+  if(txMethod&&txMethod!=='all')list=list.filter(t=>t.method===txMethod);
 
-  if(txSort==='asc'||txSort==='desc'){
-    // Agrupa por dia, dentro de cada dia ordena por valor
-    const groups={};
-    list.forEach(t=>{if(!groups[t.date])groups[t.date]=[];groups[t.date].push(t);});
-    // Ordena os dias por data decrescente
-    const dates=Object.keys(groups).sort((a,b)=>b.localeCompare(a));
-    // Dentro de cada dia ordena por valor
-    dates.forEach(d=>groups[d].sort((a,b)=>txSort==='desc'?b.val-a.val:a.val-b.val));
-    let html='';
-    dates.forEach(d=>{
-      html+=`<div class="tx-date-lbl">${fmtD(d)}</div>`;
-      groups[d].forEach(t=>{html+=txHtml(t,txList.indexOf(t));});
-    });
-    document.getElementById('tx-full').innerHTML=html||'<div style="text-align:center;color:var(--mu);padding:40px;font-size:14px">Nenhuma transação</div>';
-  } else {
-    list.sort((a,b)=>b.date.localeCompare(a.date));
-    let html='',lastDate='';
-    list.forEach(t=>{
-      if(t.date!==lastDate){html+=`<div class="tx-date-lbl">${fmtD(t.date)}</div>`;lastDate=t.date;}
-      html+=txHtml(t);
-    });
-    document.getElementById('tx-full').innerHTML=html||'<div style="text-align:center;color:var(--mu);padding:40px;font-size:14px">Nenhuma transação</div>';
-  }
+  const el=document.getElementById('tx-full');
+  if(!el)return;
+
+  // Sempre agrupa por dia, dias mais recentes primeiro
+  const groups={};
+  list.forEach(t=>{if(!groups[t.date])groups[t.date]=[];groups[t.date].push(t);});
+  const dates=Object.keys(groups).sort((a,b)=>b.localeCompare(a));
+  // Dentro de cada dia ordena por valor conforme selecionado
+  dates.forEach(d=>groups[d].sort((a,b)=>txSort==='asc'?a.val-b.val:b.val-a.val));
+
+  let html='';
+  dates.forEach(d=>{
+    html+=`<div class="tx-date-lbl">${fmtD(d)}</div>`;
+    groups[d].forEach(t=>{html+=txHtml(t,txList.indexOf(t));});
+  });
+
+  el.innerHTML=html||'<div style="text-align:center;color:var(--mu);padding:40px;font-size:14px">Nenhuma transação</div>';
 }
 
-// TX MODAL
-function openTxModal(){document.getElementById('m-date').value=today();document.getElementById('modal-tx').classList.add('open');}
+
+function openTxModal(){
+  document.getElementById('m-date').value=today();
+  document.getElementById('m-method').value='Débito';
+  document.getElementById('parcelas-wrap').style.display='none';
+  document.getElementById('parcela-preview').style.display='none';
+  // Popular cartões
+  const sel=document.getElementById('m-cartao');
+  sel.innerHTML='<option value="">Selecione o cartão</option>'+cartoes.map(c=>`<option value="${c.id}">${c.nome} (vence dia ${c.vencimento})</option>`).join('');
+  document.getElementById('modal-tx').classList.add('open');
+}
+function toggleParcelas(method){
+  const wrap=document.getElementById('parcelas-wrap');
+  wrap.style.display=method==='Crédito'?'block':'none';
+  if(method!=='Crédito')document.getElementById('m-parcelas').value='1';
+  updateParcelaPreview();
+}
+function updateParcelaPreview(){
+  const val=parseFloat(document.getElementById('m-val').value||0);
+  const parcelas=parseInt(document.getElementById('m-parcelas')?.value||1);
+  const preview=document.getElementById('parcela-preview');
+  if(val>0&&parcelas>1){
+    preview.style.display='block';
+    preview.textContent=`${parcelas}x de R$ ${(val/parcelas).toLocaleString('pt-BR',{minimumFractionDigits:2})} = R$ ${val.toLocaleString('pt-BR',{minimumFractionDigits:2})} total`;
+  } else {
+    preview.style.display='none';
+  }
+}
 function setType(t){txType=t;document.getElementById('btn-receita').className='type-btn '+(t==='receita'?'on':'off');document.getElementById('btn-despesa').className='type-btn '+(t==='despesa'?'on':'off');}
 function saveTx(){
   const desc=document.getElementById('m-desc').value.trim();
@@ -772,8 +895,7 @@ function saveTx(){
   const date=document.getElementById('m-date').value;
   if(!desc||!val||!date)return alert('Preencha todos os campos!');
   const method=document.getElementById('m-method').value;
-  const time=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-  txList.push({type:txType,desc,cat,val,date,emoji:EMOJIS[cat]||'💰',method,time});
+
   document.getElementById('modal-tx').classList.remove('open');
   document.getElementById('m-desc').value='';document.getElementById('m-val').value='';
   showToast('✅ Lançamento registrado!');
@@ -827,14 +949,17 @@ let agFilter='all';
 function filterAgenda(f,el){agFilter=f;document.querySelectorAll('#s-agenda .pill').forEach(p=>{p.className='pill off'});el.className='pill on';renderAgenda();}
 function renderAgenda(){
   const tod=today();
-  let list=agFilter==='rec'?compList.filter(c=>c.rec):agFilter==='upcoming'?compList.filter(c=>c.date>=tod):compList;
+  const in7days=new Date();in7days.setDate(in7days.getDate()+7);const in7str=in7days.toISOString().split('T')[0];
+  let list=agFilter==='rec'?compList.filter(c=>c.rec):agFilter==='upcoming'?compList.filter(c=>c.date>=tod&&c.date<=in7str):compList;
   list=[...list].sort((a,b)=>a.date.localeCompare(b.date));
   document.getElementById('agenda-list').innerHTML=list.length?list.map(c=>{
     const d=new Date(c.date+'T12:00:00');
     const diff=Math.ceil((d-new Date())/(1000*60*60*24));
     const badge=diff<=0?'':'<span class="comp-badge '+(diff<=3?'badge-soon':'badge-ok')+'">'+(diff<=0?'Hoje':diff===1?'Amanhã':diff<=3?`Em ${diff} dias`:`${fmtD(c.date)}`)+'</span>';
     const recBadge=c.rec?`<span class="comp-badge badge-rec">${c.freq==='daily'?'Diário':c.freq==='weekly'?'Semanal':'Mensal'}</span>`:'';
-    return`<div class="comp-card"><div class="comp-date"><div class="cd-day">${c.date.split('-')[2]}</div><div class="cd-mon">${['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][parseInt(c.date.split('-')[1])-1]}</div></div><div class="comp-info"><div class="comp-title">${c.desc}</div><div class="comp-time"><i class="ti ti-clock" style="font-size:12px"></i>${c.start}${c.end?' – '+c.end:''}</div>${badge}${recBadge}</div><button class="comp-del" onclick="delComp(${c.id})"><i class="ti ti-trash"></i></button></div>`;
+    const cartaoBadge=c.cartao?`<span class="comp-badge" style="background:rgba(108,99,255,.15);color:#818cf8">${c.cartao}</span>`:'';
+    const tipoBadge=c.tipo==='parcela'?'<span class="comp-badge" style="background:rgba(239,68,68,.15);color:#ef4444">Parcela</span>':'';
+    return`<div class="comp-card"><div class="comp-date"><div class="cd-day">${c.date.split('-')[2]}</div><div class="cd-mon">${['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][parseInt(c.date.split('-')[1])-1]}</div></div><div class="comp-info"><div class="comp-title">${c.desc}</div><div class="comp-time"><i class="ti ti-clock" style="font-size:12px"></i>${c.start||''}${c.end?' – '+c.end:''}</div>${badge}${recBadge}${tipoBadge}${cartaoBadge}</div><button class="comp-del" onclick="delComp(${c.id})"><i class="ti ti-trash"></i></button></div>`;
   }).join(''):'<div style="text-align:center;color:var(--mu);padding:40px;font-size:14px">Nenhum compromisso</div>';
 }
 function delComp(id){compList=compList.filter(c=>c.id!==id);renderAgenda();}
@@ -860,7 +985,8 @@ function checkCompAlerts(){
   const now=new Date();
   const toasts=[];
 
-  compList.forEach(c=>{
+  const sortedComps=[...compList].sort((a,b)=>a.date.localeCompare(b.date));
+  sortedComps.forEach(c=>{
     const eventDate=new Date(c.date+'T'+( c.start||'00:00')+':00');
     const diffMs=eventDate-now;
     const diffDays=Math.ceil(diffMs/(1000*60*60*24));
@@ -998,6 +1124,139 @@ function openCatDetail(catName){
   document.getElementById('modal-cat-detail').classList.add('open');
 }
 
+// CARTÕES
+function openCartoesModal(){
+  renderCartoesList();
+  document.getElementById('modal-cartoes').classList.add('open');
+}
+function renderCartoesList(){
+  const el=document.getElementById('cartoes-list');
+  el.innerHTML=cartoes.length?cartoes.map(c=>`
+    <div style="background:var(--pm);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px">
+      <div style="width:38px;height:38px;border-radius:10px;background:${c.cor};display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-credit-card" style="font-size:18px;color:#fff"></i></div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:500;color:var(--tx)">${c.nome}</div>
+        <div style="font-size:11px;color:var(--mu)">${c.bandeira} · Vence dia ${c.vencimento}</div>
+      </div>
+      <button onclick="delCartao(${c.id})" style="background:none;border:none;color:var(--mu);cursor:pointer;font-size:16px"><i class="ti ti-trash"></i></button>
+    </div>`).join(''):'<div style="text-align:center;color:var(--mu);padding:20px;font-size:14px">Nenhum cartão cadastrado</div>';
+  const sub=document.getElementById('cartoes-sub');
+  if(sub)sub.textContent=cartoes.length+' cartão'+(cartoes.length!==1?'es':'')+' cadastrado'+(cartoes.length!==1?'s':'');
+}
+function addCartao(){
+  const nome=document.getElementById('c-nome').value.trim();
+  const bandeira=document.getElementById('c-bandeira').value;
+  const venc=parseInt(document.getElementById('c-venc').value);
+  if(!nome||!venc||venc<1||venc>31)return alert('Preencha nome e dia de vencimento válido!');
+  const cores={'Mastercard':'#eb5b25','Visa':'#1a73e8','Elo':'#f59e0b','Amex':'#22c55e'};
+  cartoes.push({id:Date.now(),nome,bandeira,vencimento:venc,cor:cores[document.getElementById('c-bandeira').value]||'#6c63ff'});
+  document.getElementById('c-nome').value='';
+  document.getElementById('c-venc').value='';
+  renderCartoesList();
+  showToast(`💳 ${nome} adicionado!`);
+}
+function delCartao(id){cartoes=cartoes.filter(c=>c.id!==id);renderCartoesList();}
+
+// PARCELA PAGAR
+let pagandoIdx=null;
+function openPagar(idx){
+  pagandoIdx=idx;
+  const t=txList[idx];
+  const baseDesc=t.desc.replace(/\s*\(\d+\/\d+\)$/,'');
+
+  // Contar parcelas não pagas desse grupo a partir desta
+  const pendentes=txList.filter(tx=>
+    tx.installment&&
+    tx.desc.replace(/\s*\(\d+\/\d+\)$/,'')===baseDesc&&
+    tx.installmentTotal===t.installmentTotal&&
+    !tx.pago&&
+    tx.date>=t.date
+  ).sort((a,b)=>a.date.localeCompare(b.date));
+
+  document.getElementById('paga-info').innerHTML=`
+    <div style="background:var(--pd);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--mu);font-size:13px">Descrição</span><span style="font-size:13px;font-weight:500;color:var(--tx)">${baseDesc}</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--mu);font-size:13px">Valor por parcela</span><span style="font-size:14px;font-weight:600;color:#ef4444">-${fmtS(t.val)}</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--mu);font-size:13px">Parcelas pendentes</span><span style="font-size:13px;color:var(--tx)">${pendentes.length}</span></div>
+    </div>`;
+
+  // Montar select com opções de 1 até total pendente
+  const sel=document.getElementById('paga-qtd');
+  sel.innerHTML=pendentes.map((p,i)=>`<option value="${i+1}">${i+1} parcela${i>0?'s':''} (até ${p.date.split('-').reverse().join('/')}${i>0?' — R$ '+(fmtS((i+1)*t.val)):''})</option>`).join('');
+  document.getElementById('paga-qtd-wrap').style.display=pendentes.length>1?'block':'none';
+  document.getElementById('modal-paga').classList.add('open');
+}
+function confirmarPagamento(){
+  if(pagandoIdx===null)return;
+  const t=txList[pagandoIdx];
+  t.pago=true;
+  document.getElementById('modal-paga').classList.remove('open');
+
+  if(t.installment){
+    const baseDesc=t.desc.replace(/\s*\(\d+\/\d+\)$/, '');
+    const total=t.installmentTotal;
+    const todasParcelas=txList.filter(tx=>
+      tx.installment&&
+      tx.desc.replace(/\s*\(\d+\/\d+\)$/,'')===baseDesc&&
+      tx.installmentTotal===total
+    );
+    const todasPagas=todasParcelas.every(tx=>tx.pago);
+
+    if(todasPagas){
+      // Quitou tudo — remove todos os eventos da agenda
+      const antes=compList.length;
+      compList=compList.filter(c=>!c.desc.startsWith(baseDesc+' ('));
+      const removidos=antes-compList.length;
+      showToast(`🎉 "${baseDesc}" totalmente quitada! ${removidos} lembretes removidos.`);
+    } else {
+      // Pago antes do vencimento — remove só o evento deste mês
+      // (identifica pelo mês/ano da data da parcela)
+      const mesPago=t.date.substring(0,7); // "2026-07"
+      compList=compList.filter(c=>{
+        // Remove o evento desta parcela específica OU qualquer evento
+        // desta dívida que vença no mesmo mês (caso tenha sido pago antes)
+        const mesEvento=c.date.substring(0,7);
+        const mesmaDivida=c.desc.startsWith(baseDesc+' (');
+        return!(mesmaDivida&&mesEvento===mesPago);
+      });
+      const restantes=todasParcelas.filter(tx=>!tx.pago).length;
+      showToast(`✅ Pago! Ainda faltam ${restantes} parcela${restantes!==1?'s':''} de "${baseDesc}"`);
+    }
+    renderAgenda();
+  } else {
+    showToast('✅ Marcado como pago!');
+  }
+
+  renderTxFull();
+  pagandoIdx=null;
+}
+
+// CRIAR PARCELAS NA AGENDA automaticamente ao salvar tx parcelada
+function criarEventosParcelas(desc,val,date,parcelas,cartaoNome,vencDia){
+  for(let i=0;i<parcelas;i++){
+    const d=new Date(date+'T12:00:00');
+    d.setMonth(d.getMonth()+i);
+    // Usar o dia de vencimento do cartão se disponível
+    if(vencDia){d.setDate(vencDia);}
+    const dStr=d.toISOString().split('T')[0];
+    const parcelaDesc=`${desc} (${i+1}/${parcelas})`;
+    // Só criar se não existe já na agenda
+    const exists=compList.some(c=>c.desc===parcelaDesc&&c.date===dStr);
+    if(!exists){
+      compList.push({
+        id:Date.now()+i,
+        desc:parcelaDesc,
+        date:dStr,
+        start:'08:00',end:'',
+        rec:false,
+        alert:3,
+        tipo:'parcela',
+        cartao:cartaoNome||'Crédito'
+      });
+    }
+  }
+}
+
 function goTo(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   const screen=document.getElementById(id);
@@ -1005,14 +1264,7 @@ function goTo(id){
   window.scrollTo(0,0);
   requestAnimationFrame(()=>{
     if(id==='s-home')updateHome();
-    if(id==='s-tx'){
-      txMethod='all';txSort='desc';
-      const ms=document.getElementById('method-select');
-      const ss=document.getElementById('sort-select');
-      if(ms)ms.value='all';
-      if(ss)ss.value='desc';
-      renderTxFull();
-    }
+    if(id==='s-tx')renderTxFull();
     if(id==='s-cat')renderCats();
     if(id==='s-agenda')renderAgenda();
   });
