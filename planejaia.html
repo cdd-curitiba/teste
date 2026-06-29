@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<style>html{overflow-x:hidden;max-width:100vw}</style>
 <meta name="theme-color" content="#0d0d1a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -13,8 +14,8 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{--p:#6c63ff;--pd:#13113a;--pm:#1a1a2e;--pb:#2e2a7a;--red:#ef4444;--grn:#22c55e;--amb:#f59e0b;--blu:#3b82f6;--tx:#f1f5f9;--mu:#64748b;--so:#94a3b8}
-body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100dvh;display:flex;flex-direction:column;width:100%;overflow-x:hidden}
-.screen{display:none;flex-direction:column;flex:1;animation:fi .18s ease}
+body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100dvh;display:flex;flex-direction:column;max-width:430px;margin:0 auto;overflow-x:hidden}
+.screen{display:none;flex-direction:column;height:100dvh;animation:fi .18s ease}
 .screen.active{display:flex}
 @keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .sc{flex:1;overflow-y:auto;padding-bottom:8px;scrollbar-width:none}
@@ -178,6 +179,8 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 
 /* MODALS */
 .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:center;justify-content:center;padding:20px}
+.mo-sheet{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:flex-end;justify-content:center}
+.mo-sheet.open{display:flex}
 .mo.open{display:flex}
 .mbox{background:var(--pm);border-radius:20px;padding:24px;width:100%;max-width:430px;border:0.5px solid var(--pb)}
 .mhandle{width:40px;height:4px;background:var(--pb);border-radius:2px;margin:0 auto 20px}
@@ -365,19 +368,19 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
     <button class="pill off" onclick="filterTx('despesa',this)">Saídas</button>
   </div>
 
-  <div style="padding:0 20px;margin-bottom:10px;display:flex;align-items:center;gap:8px">
-    <button onclick="openCal('tx')" style="display:flex;align-items:center;gap:6px;background:var(--pm);border:0.5px solid var(--pb);border-radius:10px;padding:6px 12px;color:var(--tx);font-size:12px;cursor:pointer;flex-shrink:0">
+  <div style="padding:0 20px;margin-bottom:10px;display:flex;align-items:center;gap:6px;overflow:hidden">
+    <button onclick="openCal('tx')" style="display:flex;align-items:center;gap:4px;background:var(--pm);border:0.5px solid var(--pb);border-radius:10px;padding:6px 8px;color:var(--tx);font-size:11px;cursor:pointer;flex-shrink:0;min-width:0;max-width:110px">
       <i class="ti ti-calendar" style="font-size:14px;color:var(--p)"></i>
-      <span id="tx-date-label">Data</span>
+      <span id="tx-date-label" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Data</span>
     </button>
-    <select id="method-select" onchange="filterMethod(this.value)" style="flex:1;background:var(--pm);border:0.5px solid var(--pb);border-radius:10px;padding:6px 10px;color:var(--tx);font-size:12px;outline:none;cursor:pointer">
+    <select id="method-select" onchange="filterMethod(this.value)" style="flex:1;min-width:0;background:var(--pm);border:0.5px solid var(--pb);border-radius:10px;padding:6px 6px;color:var(--tx);font-size:11px;outline:none;cursor:pointer">
       <option value="all">Todos os métodos</option>
       <option value="Débito">Débito</option>
       <option value="Crédito">Crédito</option>
       <option value="PIX">PIX</option>
       <option value="Dinheiro">Dinheiro</option>
     </select>
-    <select id="sort-select" onchange="setSort(this.value)" style="flex:1;background:var(--pm);border:0.5px solid var(--pb);border-radius:10px;padding:6px 10px;color:var(--tx);font-size:12px;outline:none;cursor:pointer">
+    <select id="sort-select" onchange="setSort(this.value)" style="flex:1;min-width:0;background:var(--pm);border:0.5px solid var(--pb);border-radius:10px;padding:6px 6px;color:var(--tx);font-size:11px;outline:none;cursor:pointer">
       <option value="desc">Maior valor</option>
       <option value="asc">Menor valor</option>
     </select>
@@ -678,7 +681,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 </div>
 
 <!-- MODAL: CALENDÁRIO -->
-<div class="mo" id="modal-cal" onclick="if(event.target===this)this.classList.remove('open')">
+<div class="mo-sheet" id="modal-cal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="mbox">
     <h3>Selecionar período</h3>
     <div class="cal-actions">
