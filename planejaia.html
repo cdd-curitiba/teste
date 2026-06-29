@@ -15,13 +15,13 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{--p:#6c63ff;--pd:#13113a;--pm:#1a1a2e;--pb:#2e2a7a;--red:#ef4444;--grn:#22c55e;--amb:#f59e0b;--blu:#3b82f6;--tx:#f1f5f9;--mu:#64748b;--so:#94a3b8}
 body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100dvh;display:flex;flex-direction:column;max-width:430px;margin:0 auto;overflow-x:hidden}
-.screen{display:none;flex-direction:column;height:100dvh;animation:fi .18s ease}
+.screen{display:none;flex-direction:column;flex:1;animation:fi .18s ease}
 .screen.active{display:flex}
 @keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.sc{flex:1;overflow-y:auto;padding-bottom:8px;scrollbar-width:none}
+.sc{flex:1;overflow-y:auto;padding-bottom:90px;scrollbar-width:none}
 .sc::-webkit-scrollbar{display:none}
 .topbar{padding:calc(env(safe-area-inset-top) + 14px) 20px 12px;display:flex;align-items:center;justify-content:space-between;background:#0d0d1a;flex-shrink:0}
-.navbar{background:var(--pm);border-top:0.5px solid var(--pb);padding:10px 0 0;padding-bottom:max(28px,env(safe-area-inset-bottom));display:flex;justify-content:space-around;flex-shrink:0;position:sticky;bottom:0}
+.navbar{background:var(--pm);border-top:0.5px solid var(--pb);padding:10px 0 0;padding-bottom:max(28px,env(safe-area-inset-bottom));display:flex;justify-content:space-around;position:fixed;bottom:0;left:0;right:0;z-index:50;max-width:430px;margin:0 auto}
 .nav{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;min-width:48px;padding:4px;border-radius:10px}
 .nav:active{background:var(--pd)}
 .nav i{font-size:20px;color:var(--mu)}
@@ -285,16 +285,19 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 <!-- HOME -->
 <div class="screen" id="s-home">
   <div class="topbar">
-    <div class="logo-wrap" style="padding-left:4px"><div class="logo-icon">🧠</div><div class="logo-text">Planeja<span>IA</span></div></div>
+    <div class="logo-wrap" style="padding-left:4px">
+      <div class="logo-icon">🧠</div>
+      <div class="logo-text">Planeja<span>IA</span></div>
+    </div>
     <div class="avatar" id="user-av" onclick="triggerPhotoUpload()" title="Alterar foto" style="margin-right:4px">JV</div>
   </div>
   <div class="sc">
     <div class="hero">
       <div class="hero-label">Saldo do período</div>
-      <div class="hero-amount" id="h-saldo">R$ 1.353,00</div>
+      <div class="hero-amount" id="h-saldo">R$ 0,00</div>
       <div class="mini-row">
-        <div class="mini-card"><div class="mini-label"><i class="ti ti-arrow-down" style="font-size:12px"></i> Entradas</div><div class="mini-val" id="h-entrada">R$ 3.200</div></div>
-        <div class="mini-card"><div class="mini-label r"><i class="ti ti-arrow-up" style="font-size:12px"></i> Saídas</div><div class="mini-val" id="h-saida">R$ 1.847</div></div>
+        <div class="mini-card"><div class="mini-label"><i class="ti ti-arrow-down" style="font-size:12px"></i> Entradas</div><div class="mini-val" id="h-entrada">R$ 0</div></div>
+        <div class="mini-card"><div class="mini-label r"><i class="ti ti-arrow-up" style="font-size:12px"></i> Saídas</div><div class="mini-val" id="h-saida">R$ 0</div></div>
       </div>
     </div>
     <div class="section">
@@ -310,27 +313,23 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
       </div>
     </div>
     <div class="period-wrap">
-      <div class="period-head"><span>Período selecionado</span><button class="period-btn" onclick="openCal()"><i class="ti ti-calendar" style="font-size:13px;vertical-align:-2px"></i> Personalizar</button></div>
+      <div class="period-head"><span>Período selecionado</span><button class="period-btn" onclick="openCal('home')"><i class="ti ti-calendar" style="font-size:13px;vertical-align:-2px"></i> Personalizar</button></div>
       <div class="period-pills">
         <button class="pp on" onclick="setPeriod('month',this)">Este mês</button>
         <button class="pp off" onclick="setPeriod('week',this)">Esta semana</button>
         <button class="pp off" onclick="setPeriod('today',this)">Hoje</button>
+
         <button class="pp off" onclick="setPeriod('custom',this)" id="pp-custom" style="display:none">Personalizado</button>
       </div>
     </div>
-    <div class="section"><div class="sh"><h2>Últimas transações</h2><a onclick="goTo('s-tx')">ver tudo</a></div></div>
-    <div class="tx-list" id="home-tx"></div>
-    <div class="section" style="margin-top:8px">
-      <div class="sh"><h2>Análise por categoria</h2></div>
-      <div style="background:var(--pm);border-radius:14px;padding:16px">
-        <canvas id="home-pie" height="180"></canvas>
-        <div class="pie-legend" id="home-pie-legend"></div>
-      </div>
+    <div class="section">
+      <div class="sh"><h2>Últimas transações</h2><a onclick="goTo('s-tx')">ver tudo</a></div>
     </div>
+    <div class="tx-list" id="home-tx"></div>
     <div class="section" style="margin-top:4px">
       <div class="sh"><h2>Método de pagamento</h2></div>
       <div style="background:var(--pm);border-radius:14px;padding:16px">
-        <canvas id="home-pay-pie" height="180"></canvas>
+        <canvas id="home-pay-pie" height="160"></canvas>
         <div class="pie-legend" id="home-pay-legend"></div>
       </div>
     </div>
@@ -349,11 +348,11 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
     </div>
     <div class="fab-wrap"><button class="fab" onclick="openTxModal()"><i class="ti ti-plus"></i></button></div>
   </div>
-
   <div class="navbar">
     <div class="nav on" onclick="goTo('s-home')"><i class="ti ti-home"></i><span>início</span></div>
     <div class="nav" onclick="goTo('s-tx')"><i class="ti ti-list"></i><span>extrato</span></div>
     <div class="nav" onclick="goTo('s-cat')"><i class="ti ti-chart-pie"></i><span>categorias</span></div>
+    <div class="nav" onclick="goTo('s-fixos')"><i class="ti ti-receipt"></i><span>fixos</span></div>
     <div class="nav" onclick="goTo('s-agenda')"><i class="ti ti-calendar-event"></i><span>agenda</span></div>
     <div class="nav" onclick="goTo('s-profile')"><i class="ti ti-user"></i><span>perfil</span></div>
   </div>
@@ -368,10 +367,10 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
     <button class="pill off" onclick="filterTx('despesa',this)">Saídas</button>
   </div>
 
-  <div style="padding:0 20px;margin-bottom:10px;display:flex;align-items:center;gap:6px;overflow:hidden">
-    <button onclick="openCal('tx')" style="display:flex;align-items:center;gap:4px;background:var(--pm);border:0.5px solid var(--pb);border-radius:10px;padding:6px 8px;color:var(--tx);font-size:11px;cursor:pointer;flex-shrink:0;min-width:0;max-width:110px">
+  <div style="padding:0 20px;margin-bottom:10px;display:flex;align-items:center;gap:6px">
+    <button onclick="openCal('tx')" style="display:flex;align-items:center;gap:4px;background:var(--pm);border:0.5px solid var(--pb);border-radius:10px;padding:6px 10px;color:var(--tx);font-size:11px;cursor:pointer;flex-shrink:0">
       <i class="ti ti-calendar" style="font-size:14px;color:var(--p)"></i>
-      <span id="tx-date-label" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Data</span>
+      <span id="tx-date-label">Data</span>
     </button>
     <select id="method-select" onchange="filterMethod(this.value)" style="flex:1;min-width:0;background:var(--pm);border:0.5px solid var(--pb);border-radius:10px;padding:6px 6px;color:var(--tx);font-size:11px;outline:none;cursor:pointer">
       <option value="all">Todos os métodos</option>
@@ -390,6 +389,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
     <div class="nav" onclick="goTo('s-home')"><i class="ti ti-home"></i><span>início</span></div>
     <div class="nav on" onclick="goTo('s-tx')"><i class="ti ti-list"></i><span>extrato</span></div>
     <div class="nav" onclick="goTo('s-cat')"><i class="ti ti-chart-pie"></i><span>categorias</span></div>
+    <div class="nav" onclick="goTo('s-fixos')"><i class="ti ti-receipt"></i><span>fixos</span></div>
     <div class="nav" onclick="goTo('s-agenda')"><i class="ti ti-calendar-event"></i><span>agenda</span></div>
     <div class="nav" onclick="goTo('s-profile')"><i class="ti ti-user"></i><span>perfil</span></div>
   </div>
@@ -417,6 +417,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
     <div class="nav" onclick="goTo('s-home')"><i class="ti ti-home"></i><span>início</span></div>
     <div class="nav" onclick="goTo('s-tx')"><i class="ti ti-list"></i><span>extrato</span></div>
     <div class="nav on" onclick="goTo('s-cat')"><i class="ti ti-chart-pie"></i><span>categorias</span></div>
+    <div class="nav" onclick="goTo('s-fixos')"><i class="ti ti-receipt"></i><span>fixos</span></div>
     <div class="nav" onclick="goTo('s-agenda')"><i class="ti ti-calendar-event"></i><span>agenda</span></div>
     <div class="nav" onclick="goTo('s-profile')"><i class="ti ti-user"></i><span>perfil</span></div>
   </div>
@@ -435,7 +436,51 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
     <div class="nav" onclick="goTo('s-home')"><i class="ti ti-home"></i><span>início</span></div>
     <div class="nav" onclick="goTo('s-tx')"><i class="ti ti-list"></i><span>extrato</span></div>
     <div class="nav" onclick="goTo('s-cat')"><i class="ti ti-chart-pie"></i><span>categorias</span></div>
+    <div class="nav" onclick="goTo('s-fixos')"><i class="ti ti-receipt"></i><span>fixos</span></div>
     <div class="nav on" onclick="goTo('s-agenda')"><i class="ti ti-calendar-event"></i><span>agenda</span></div>
+    <div class="nav" onclick="goTo('s-profile')"><i class="ti ti-user"></i><span>perfil</span></div>
+  </div>
+</div>
+
+<!-- GASTOS FIXOS -->
+<div class="screen" id="s-fixos">
+  <div class="topbar">
+    <span style="font-size:17px;font-weight:600;padding-left:4px">Gastos Fixos</span>
+    <button onclick="openNovoFixo()" style="background:var(--p);border:none;border-radius:10px;padding:7px 14px;color:#fff;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px"><i class="ti ti-plus" style="font-size:15px"></i> Novo</button>
+  </div>
+
+  <div class="sc">
+    <!-- Resumo -->
+    <div style="margin:0 20px 14px;background:var(--pd);border:0.5px solid var(--pb);border-radius:16px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-size:11px;color:#818cf8;margin-bottom:4px">Total mensal estimado</div>
+        <div style="font-size:22px;font-weight:700;color:var(--tx)" id="fixos-total">R$ 0</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:11px;color:var(--mu);margin-bottom:4px">Contas ativas</div>
+        <div style="font-size:16px;font-weight:500;color:var(--tx)" id="fixos-count">0</div>
+      </div>
+    </div>
+
+    <!-- Parcelas do cartão -->
+    <div style="padding:0 20px;margin-bottom:8px">
+      <div style="font-size:12px;color:var(--mu);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;font-weight:500">Parcelas do cartão</div>
+      <div id="fixos-parcelas" style="display:flex;flex-direction:column;gap:8px"></div>
+    </div>
+
+    <!-- Contas fixas -->
+    <div style="padding:0 20px;margin-bottom:8px">
+      <div style="font-size:12px;color:var(--mu);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;font-weight:500">Contas recorrentes</div>
+      <div id="fixos-list" style="display:flex;flex-direction:column;gap:8px"></div>
+    </div>
+  </div>
+
+  <div class="navbar">
+    <div class="nav" onclick="goTo('s-home')"><i class="ti ti-home"></i><span>início</span></div>
+    <div class="nav" onclick="goTo('s-tx')"><i class="ti ti-list"></i><span>extrato</span></div>
+    <div class="nav" onclick="goTo('s-cat')"><i class="ti ti-chart-pie"></i><span>categorias</span></div>
+    <div class="nav" onclick="goTo('s-fixos')"><i class="ti ti-receipt"></i><span>fixos</span></div>
+    <div class="nav" onclick="goTo('s-agenda')"><i class="ti ti-calendar-event"></i><span>agenda</span></div>
     <div class="nav" onclick="goTo('s-profile')"><i class="ti ti-user"></i><span>perfil</span></div>
   </div>
 </div>
@@ -462,6 +507,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
     <div class="nav" onclick="goTo('s-home')"><i class="ti ti-home"></i><span>início</span></div>
     <div class="nav" onclick="goTo('s-tx')"><i class="ti ti-list"></i><span>extrato</span></div>
     <div class="nav" onclick="goTo('s-cat')"><i class="ti ti-chart-pie"></i><span>categorias</span></div>
+    <div class="nav" onclick="goTo('s-fixos')"><i class="ti ti-receipt"></i><span>fixos</span></div>
     <div class="nav" onclick="goTo('s-agenda')"><i class="ti ti-calendar-event"></i><span>agenda</span></div>
     <div class="nav on" onclick="goTo('s-profile')"><i class="ti ti-user"></i><span>perfil</span></div>
   </div>
@@ -780,6 +826,44 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
   </div>
 </div>
 
+<!-- MODAL: EDITAR GASTO FIXO -->
+<div class="mo" id="modal-edit-fixo" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="mbox">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h3 style="margin:0">Editar conta fixa</h3>
+      <button onclick="document.getElementById('modal-edit-fixo').classList.remove('open')" style="background:none;border:none;color:var(--mu);font-size:20px;cursor:pointer"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="mf"><label>Nome</label><input type="text" id="ef-nome"/></div>
+    <div class="mf"><label>Emoji</label><input type="text" id="ef-emoji" maxlength="2"/></div>
+    <div class="mf"><label>Categoria</label><select id="ef-cat"></select></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div class="mf"><label>Dia vencimento</label><input type="number" id="ef-dia" min="1" max="31" inputmode="numeric"/></div>
+      <div class="mf"><label>Valor estimado</label><input type="number" id="ef-valor" inputmode="decimal"/></div>
+    </div>
+    <button class="save-btn" onclick="saveEditFixo()">Salvar</button>
+    <button class="cancel-btn" onclick="document.getElementById('modal-edit-fixo').classList.remove('open')">Cancelar</button>
+  </div>
+</div>
+
+<!-- MODAL: NOVO GASTO FIXO -->
+<div class="mo" id="modal-novo-fixo" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="mbox">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h3 style="margin:0">Novo gasto fixo</h3>
+      <button onclick="document.getElementById('modal-novo-fixo').classList.remove('open')" style="background:none;border:none;color:var(--mu);font-size:20px;cursor:pointer"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="mf"><label>Nome</label><input type="text" id="nf-nome" placeholder="Ex: Água, Luz, Netflix..."/></div>
+    <div class="mf"><label>Emoji</label><input type="text" id="nf-emoji" placeholder="Ex: 💧" maxlength="2"/></div>
+    <div class="mf"><label>Categoria</label><select id="nf-cat"></select></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div class="mf"><label>Dia do vencimento</label><input type="number" id="nf-dia" placeholder="Ex: 10" min="1" max="31" inputmode="numeric"/></div>
+      <div class="mf"><label>Valor estimado (R$)</label><input type="number" id="nf-valor" placeholder="Ex: 150" inputmode="decimal"/></div>
+    </div>
+    <button class="save-btn" onclick="saveNovoFixo()">Adicionar</button>
+    <button class="cancel-btn" onclick="document.getElementById('modal-novo-fixo').classList.remove('open')">Cancelar</button>
+  </div>
+</div>
+
 <!-- MODAL: NOVA CATEGORIA -->
 <div class="mo" id="modal-new-cat" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="mbox">
@@ -862,6 +946,13 @@ let txList=[
   {type:'despesa',desc:'Farmácia',cat:'Saúde',val:268,date:'2026-06-22',emoji:'💊',method:'Dinheiro',time:'11:15'},
   {type:'despesa',desc:'Farmácia',cat:'Saúde',val:89,date:'2026-06-15',emoji:'💊',method:'Débito',time:'16:40'},
   {type:'despesa',desc:'Farmácia',cat:'Saúde',val:134,date:'2026-06-08',emoji:'💊',method:'PIX',time:'09:22'},
+];
+
+let gastosFixos=[
+  {id:1,nome:'Aluguel',emoji:'🏠',cat:'Moradia',dia:5,valor:1200,ativo:true},
+  {id:2,nome:'Internet',emoji:'📶',cat:'Moradia',dia:10,valor:120,ativo:true},
+  {id:3,nome:'Luz',emoji:'💡',cat:'Moradia',dia:15,valor:180,ativo:true},
+  {id:4,nome:'Água',emoji:'💧',cat:'Moradia',dia:20,valor:80,ativo:true},
 ];
 
 let cartoes=[
@@ -993,7 +1084,7 @@ function updateHome(){
 
   // Gráfico e últimas transações respeitam o filtro de período
   const filtered=getFilteredTx();
-  const recent=[...filtered].filter(t=>!t.installment).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3);
+  const recent=[...filtered].filter(t=>!t.installment||(t.installment&&t.pago)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3);
   document.getElementById('home-tx').innerHTML=recent.length?recent.map(txHtml).join(''):'<div style="text-align:center;color:var(--mu);padding:24px;font-size:14px">Nenhuma transação no período</div>';
   renderHomePies(filtered);
   renderDailyBars();
@@ -1139,7 +1230,7 @@ function txHtml(t,idx){
   const i=idx!==undefined?idx:txList.indexOf(t);
   const paidBadge=t.pago?'<span style="font-size:10px;padding:2px 6px;border-radius:8px;background:rgba(34,197,94,.15);color:#22c55e;margin-left:4px">✓ Pago</span>':'';
   const parcelaBadge=t.installment&&!t.pago?`<span style="font-size:10px;padding:2px 6px;border-radius:8px;background:rgba(239,68,68,.15);color:#ef4444;margin-left:4px;cursor:pointer;font-weight:600" onclick="event.stopPropagation();openPagar(${i})">A pagar</span>`:'';
-  return`<div class="tx" onclick="openTxDetail(${i})" style="${t.pago?'opacity:.6':''}"><div class="tx-icon" style="background:${t.type==='receita'?'#13113a':'#1a1a2e'}">${t.emoji||'💰'}</div><div class="tx-info"><div class="tx-name">${t.desc}</div><div class="tx-cat" style="display:flex;align-items:center;flex-wrap:wrap;gap:2px">${t.cat}${methodBadge}${paidBadge}${parcelaBadge}</div></div><div class="tx-amt ${t.type==='receita'?'gn':'rd'}">${t.type==='receita'?'+':'-'}${fmtS(t.val)}</div></div>`;
+  return`<div class="tx" onclick="openTxDetail(${i})" ><div class="tx-icon" style="background:${t.type==='receita'?'#13113a':'#1a1a2e'}">${t.emoji||'💰'}</div><div class="tx-info"><div class="tx-name">${t.desc}</div><div class="tx-cat" style="display:flex;align-items:center;flex-wrap:wrap;gap:2px">${t.cat}${methodBadge}${paidBadge}${parcelaBadge}</div></div><div class="tx-amt ${t.type==='receita'?'gn':'rd'}">${t.type==='receita'?'+':'-'}${fmtS(t.val)}</div></div>`;
 }
 
 // EXTRATO
@@ -1151,6 +1242,14 @@ function filterTx(f,el){
   renderTxFull();
 }
 function filterMethod(m){txMethod=m;renderTxFull();}
+function clearTxDate(){
+  txDateStart=null;txDateEnd=null;
+  const txLbl=document.getElementById('tx-date-label');
+  if(txLbl)txLbl.textContent='Data';
+  const clearBtn=document.getElementById('tx-date-clear');
+  if(clearBtn)clearBtn.style.display='none';
+  renderTxFull();
+}
 function renderTxFull(){
   let list=txFilter==='all'?[...txList]:txList.filter(t=>t.type===txFilter);
   if(txDateStart)list=list.filter(t=>t.date>=txDateStart&&t.date<=(txDateEnd||txDateStart));
@@ -1159,24 +1258,23 @@ function renderTxFull(){
   const el=document.getElementById('tx-full');
   if(!el)return;
 
-  // Separar parceladas de normais
+  // No extrato: só mostrar normais + parcelas pagas (com descritivo de pagamento)
   const parceladas={};
   const normais=[];
 
   list.forEach(t=>{
-    if(t.installment){
-      const base=t.desc.replace(/\s*\(\d+\/\d+\)$/,'');
-      if(!parceladas[base])parceladas[base]=[];
-      parceladas[base].push(t);
-    } else {
+    if(t.installment&&t.pago){
+      // Parcela paga — mostrar no extrato como transação normal
+      normais.push(t);
+    } else if(!t.installment){
       normais.push(t);
     }
   });
 
-  // Montar HTML dos grupos de parcelas
+  // Só transações normais e parcelas pagas
   let html='';
 
-  // Cards agrupados de parceladas
+  if(false){// bloco removido — parcelas ficam na aba Fixos
   Object.keys(parceladas).forEach(base=>{
     const parcelas=parceladas[base].sort((a,b)=>a.date.localeCompare(b.date));
     const total=parcelas[0].installmentTotal;
@@ -1231,7 +1329,9 @@ function renderTxFull(){
     </div>`;
   });
 
-  // Transações normais agrupadas por data
+  } // fim if(false)
+
+  // Transações normais e parcelas pagas agrupadas por data
   if(normais.length>0){
     const groups={};
     normais.forEach(t=>{if(!groups[t.date])groups[t.date]=[];groups[t.date].push(t);});
@@ -1363,11 +1463,8 @@ function renderAgenda(){
   const parcelaGroups={};
   const outrosComp=[];
   compList.forEach(c=>{
-    if(c.tipo==='parcela'){
-      const base=c.desc.replace(/\s*\(\d+\/\d+\)$/,'');
-      if(!parcelaGroups[base])parcelaGroups[base]=[];
-      parcelaGroups[base].push(c);
-    } else {
+    // Parcelas agora ficam na aba Gastos Fixos
+    if(c.tipo!=='parcela'){
       outrosComp.push(c);
     }
   });
@@ -1556,6 +1653,8 @@ function applyRange(){
     txDateStart=calSel1;txDateEnd=calSel2||calSel1;
     const txLbl=document.getElementById('tx-date-label');
     if(txLbl)txLbl.textContent=lbl;
+    const clearBtn=document.getElementById('tx-date-clear');
+    if(clearBtn)clearBtn.style.display='block';
     renderTxFull();
   } else {
     periodStart=calSel1;periodEnd=calSel2||calSel1;
@@ -2109,6 +2208,156 @@ function saveLimit(){
   renderCats();
 }
 
+// GASTOS FIXOS
+function openNovoFixo(){
+  document.getElementById('nf-nome').value='';
+  document.getElementById('nf-emoji').value='';
+  document.getElementById('nf-dia').value='';
+  document.getElementById('nf-valor').value='';
+  const sel=document.getElementById('nf-cat');
+  sel.innerHTML=CATS.map(c=>`<option value="${c.name}">${c.emoji} ${c.name}</option>`).join('');
+  document.getElementById('modal-novo-fixo').classList.add('open');
+}
+
+function saveNovoFixo(){
+  const nome=document.getElementById('nf-nome').value.trim();
+  const emoji=document.getElementById('nf-emoji').value.trim()||'📄';
+  const cat=document.getElementById('nf-cat').value;
+  const dia=parseInt(document.getElementById('nf-dia').value);
+  const valor=parseFloat(document.getElementById('nf-valor').value)||0;
+  if(!nome||!dia||dia<1||dia>31)return alert('Preencha nome e dia de vencimento!');
+  gastosFixos.push({id:Date.now(),nome,emoji,cat,dia,valor,ativo:true});
+  document.getElementById('modal-novo-fixo').classList.remove('open');
+  showToast(`✅ "${nome}" adicionado aos gastos fixos!`);
+  renderFixos();
+}
+
+function renderFixos(){
+  const ativos=gastosFixos.filter(g=>g.ativo);
+  const total=ativos.reduce((s,g)=>s+g.valor,0);
+  const el=document.getElementById('fixos-total');
+  const elc=document.getElementById('fixos-count');
+  if(el)el.textContent=fmtS(total);
+  if(elc)elc.textContent=ativos.length;
+
+  // Parcelas do cartão
+  const parcelasEl=document.getElementById('fixos-parcelas');
+  if(parcelasEl){
+    const grupos={};
+    txList.filter(t=>t.installment).forEach(t=>{
+      const base=t.desc.replace(/\s*\(\d+\/\d+\)$/,'');
+      if(!grupos[base])grupos[base]={base,parcelas:[],cartao:t.cartao,emoji:t.emoji};
+      grupos[base].parcelas.push(t);
+    });
+    const gruposList=Object.values(grupos);
+    parcelasEl.innerHTML=gruposList.length?gruposList.map(g=>{
+      const todasParcelas=g.parcelas.sort((a,b)=>a.date.localeCompare(b.date));
+      const total=todasParcelas[0].installmentTotal;
+      const pagas=todasParcelas.filter(t=>t.pago).length;
+      const proxima=todasParcelas.find(t=>!t.pago)||todasParcelas[todasParcelas.length-1];
+      const d=new Date(proxima.date+'T12:00:00');
+      const diff=Math.ceil((d-new Date())/(1000*60*60*24));
+      const uid='fp_'+g.base.replace(/\s+/g,'_');
+      const pct=Math.round(pagas/total*100);
+      // Data da compra (menor data)
+      const dataCompra=todasParcelas[0].date.split('-').reverse().join('/');
+      return`<div style="background:var(--pm);border-radius:14px;overflow:hidden;margin-bottom:0">
+        <div style="padding:12px 14px;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="toggleGroup('${uid}')">
+          <div style="width:40px;height:40px;border-radius:12px;background:#1a1a2e;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${g.emoji||'💳'}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:14px;font-weight:500;color:var(--tx)">${g.base}</div>
+            <div style="font-size:11px;color:var(--mu);margin-top:1px">${g.cartao||'Crédito'} · compra em ${dataCompra}</div>
+            <div style="margin-top:6px;display:flex;align-items:center;gap:8px">
+              <div style="flex:1;height:4px;background:#2e2a7a;border-radius:2px;overflow:hidden">
+                <div style="width:${pct}%;height:100%;background:${pagas===total?'#22c55e':'#6c63ff'};border-radius:2px"></div>
+              </div>
+              <span style="font-size:10px;color:var(--mu);white-space:nowrap">${pagas}/${total} pagas</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">
+            <div style="font-size:13px;font-weight:600;color:#ef4444">-${fmtS(proxima.val)}/mês</div>
+            <i class="ti ti-chevron-down" id="chevron-${uid}" style="font-size:14px;color:var(--mu);transition:transform .2s"></i>
+          </div>
+        </div>
+        <div id="group-${uid}" style="display:none;border-top:0.5px solid var(--pb)">
+          ${todasParcelas.map((t,i)=>{
+            const idx=txList.indexOf(t);
+            const num=i+1;
+            return`<div style="padding:10px 14px 10px 66px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid var(--pb)">
+              <div>
+                <div style="font-size:13px;color:${t.pago?'var(--mu)':'var(--tx)'}">Parcela ${num}/${total}</div>
+                <div style="font-size:11px;color:var(--mu);margin-top:1px">${t.date.split('-').reverse().join('/')}</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="font-size:13px;font-weight:500;color:${t.pago?'#22c55e':'#ef4444'}">${t.pago?'✓ Pago':'-'+fmtS(t.val)}</span>
+                ${!t.pago?`<span style="font-size:10px;padding:3px 8px;border-radius:8px;background:rgba(239,68,68,.15);color:#ef4444;font-weight:600;cursor:pointer" onclick="openPagar(${idx})">Pagar</span>`:''}
+              </div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+    }).join(''):'<div style="text-align:center;color:var(--mu);padding:16px;font-size:13px">Nenhuma parcela cadastrada</div>';
+  }
+
+  // Contas fixas
+  const fixosEl=document.getElementById('fixos-list');
+  if(fixosEl){
+    const now=new Date();
+    fixosEl.innerHTML=gastosFixos.length?[...gastosFixos].sort((a,b)=>a.dia-b.dia).map(g=>{
+      const diff=g.dia-now.getDate();
+      const diffLabel=diff<0?`venceu dia ${g.dia}`:diff===0?'vence hoje':diff===1?'vence amanhã':`vence em ${diff} dias`;
+      const alertColor=diff<0?'#ef4444':diff<=3?'#f59e0b':'var(--mu)';
+      return`<div style="background:var(--pm);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px">
+        <div style="width:40px;height:40px;border-radius:12px;background:var(--pd);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${g.emoji}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:14px;font-weight:500;color:var(--tx)">${g.nome}</div>
+          <div style="font-size:11px;color:${alertColor};margin-top:2px">Todo dia ${g.dia} · ${diffLabel}</div>
+          <div style="font-size:12px;color:var(--mu);margin-top:1px">${g.cat}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div style="font-size:14px;font-weight:600;color:#ef4444">~${fmtS(g.valor)}</div>
+          <div style="display:flex;gap:8px">
+            <button onclick="editFixo(${g.id})" style="background:none;border:none;color:#818cf8;cursor:pointer;font-size:14px"><i class="ti ti-pencil"></i></button>
+            <button onclick="delFixo(${g.id})" style="background:none;border:none;color:var(--mu);cursor:pointer;font-size:14px"><i class="ti ti-trash"></i></button>
+          </div>
+        </div>
+      </div>`;
+    }).join(''):'<div style="text-align:center;color:var(--mu);padding:16px;font-size:13px">Nenhuma conta fixa cadastrada</div>';
+  }
+}
+
+function delFixo(id){
+  gastosFixos=gastosFixos.filter(g=>g.id!==id);
+  renderFixos();
+  showToast('🗑️ Removido dos gastos fixos');
+}
+
+let editingFixoId=null;
+function editFixo(id){
+  const g=gastosFixos.find(x=>x.id===id);
+  if(!g)return;
+  editingFixoId=id;
+  document.getElementById('ef-nome').value=g.nome;
+  document.getElementById('ef-emoji').value=g.emoji;
+  document.getElementById('ef-dia').value=g.dia;
+  document.getElementById('ef-valor').value=g.valor;
+  const sel=document.getElementById('ef-cat');
+  sel.innerHTML=CATS.map(c=>`<option value="${c.name}" ${c.name===g.cat?'selected':''}>${c.emoji} ${c.name}</option>`).join('');
+  document.getElementById('modal-edit-fixo').classList.add('open');
+}
+function saveEditFixo(){
+  const g=gastosFixos.find(x=>x.id===editingFixoId);
+  if(!g)return;
+  g.nome=document.getElementById('ef-nome').value.trim()||g.nome;
+  g.emoji=document.getElementById('ef-emoji').value.trim()||g.emoji;
+  g.cat=document.getElementById('ef-cat').value;
+  g.dia=parseInt(document.getElementById('ef-dia').value)||g.dia;
+  g.valor=parseFloat(document.getElementById('ef-valor').value)||g.valor;
+  document.getElementById('modal-edit-fixo').classList.remove('open');
+  showToast('✅ Conta fixa atualizada!');
+  renderFixos();
+}
+
 function goTo(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   const screen=document.getElementById(id);
@@ -2119,6 +2368,7 @@ function goTo(id){
     if(id==='s-tx')renderTxFull();
     if(id==='s-cat')renderCats();
     if(id==='s-agenda')renderAgenda();
+    if(id==='s-fixos')renderFixos();
   });
 }
 
