@@ -289,7 +289,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
       <div class="logo-icon">🧠</div>
       <div class="logo-text">Planeja<span>IA</span></div>
     </div>
-    <div class="avatar" id="user-av" onclick="triggerPhotoUpload()" title="Alterar foto" style="margin-right:4px">JV</div>
+    <button onclick="openPerfilModal()" style="background:none;border:none;cursor:pointer;padding:6px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--mu)" title="Perfil"><i class="ti ti-menu-2" style="font-size:22px"></i></button>
   </div>
   <div class="sc">
     <div class="hero">
@@ -354,13 +354,13 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
     <div class="nav" onclick="goTo('s-cat')"><i class="ti ti-chart-pie"></i><span>categorias</span></div>
     <div class="nav" onclick="goTo('s-fixos')"><i class="ti ti-receipt"></i><span>fixos</span></div>
     <div class="nav" onclick="goTo('s-agenda')"><i class="ti ti-calendar-event"></i><span>agenda</span></div>
-    <div class="nav" onclick="goTo('s-profile')"><i class="ti ti-user"></i><span>perfil</span></div>
+    <div class="nav" onclick="goTo('s-carteira')"><i class="ti ti-wallet"></i><span>carteira</span></div>
   </div>
 </div>
 
 <!-- EXTRATO -->
 <div class="screen" id="s-tx">
-  <div class="topbar"><span style="font-size:17px;font-weight:600;padding-left:4px">Extrato</span><button class="fab sfab" onclick="openTxModal()"><i class="ti ti-plus sfab"></i></button></div>
+  <div class="topbar"><span style="font-size:17px;font-weight:600;padding-left:4px">Extrato</span><button class="fab" onclick="openTxModal()" style="width:38px;height:38px;min-width:38px;display:flex;align-items:center;justify-content:center"><i class="ti ti-plus" style="font-size:18px;line-height:1"></i></button></div>
   <div class="pills">
     <button class="pill on" onclick="filterTx('all',this)">Todas</button>
     <button class="pill off" onclick="filterTx('receita',this)">Entradas</button>
@@ -371,17 +371,14 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
     <button onclick="openCal('tx')" style="display:flex;align-items:center;gap:4px;background:var(--pm);border:0.5px solid var(--pb);border-radius:10px;padding:6px 10px;color:var(--tx);font-size:11px;cursor:pointer;flex-shrink:0">
       <i class="ti ti-calendar" style="font-size:14px;color:var(--p)"></i>
       <span id="tx-date-label">Data</span>
+      <span id="tx-date-x" onclick="event.stopPropagation();clearTxDate()" style="display:none;margin-left:2px;color:var(--mu);font-weight:700;font-size:13px">✕</span>
     </button>
-    <select id="method-select" onchange="filterMethod(this.value)" style="flex:1;min-width:0;background:var(--pm);border:0.5px solid var(--pb);border-radius:10px;padding:6px 6px;color:var(--tx);font-size:11px;outline:none;cursor:pointer">
+    <select id="method-select" onchange="filterMethod(this.value)" style="flex:0 0 auto;background:var(--pm);border:0.5px solid var(--pb);border-radius:10px;padding:6px 8px;color:var(--tx);font-size:11px;outline:none;cursor:pointer">
       <option value="all">Todos os métodos</option>
       <option value="Débito">Débito</option>
       <option value="Crédito">Crédito</option>
       <option value="PIX">PIX</option>
       <option value="Dinheiro">Dinheiro</option>
-    </select>
-    <select id="sort-select" onchange="setSort(this.value)" style="flex:1;min-width:0;background:var(--pm);border:0.5px solid var(--pb);border-radius:10px;padding:6px 6px;color:var(--tx);font-size:11px;outline:none;cursor:pointer">
-      <option value="desc">Maior valor</option>
-      <option value="asc">Menor valor</option>
     </select>
   </div>
   <div class="sc"><div class="tx-full" id="tx-full"></div></div>
@@ -391,7 +388,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
     <div class="nav" onclick="goTo('s-cat')"><i class="ti ti-chart-pie"></i><span>categorias</span></div>
     <div class="nav" onclick="goTo('s-fixos')"><i class="ti ti-receipt"></i><span>fixos</span></div>
     <div class="nav" onclick="goTo('s-agenda')"><i class="ti ti-calendar-event"></i><span>agenda</span></div>
-    <div class="nav" onclick="goTo('s-profile')"><i class="ti ti-user"></i><span>perfil</span></div>
+    <div class="nav" onclick="goTo('s-carteira')"><i class="ti ti-wallet"></i><span>carteira</span></div>
   </div>
 </div>
 
@@ -419,7 +416,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
     <div class="nav on" onclick="goTo('s-cat')"><i class="ti ti-chart-pie"></i><span>categorias</span></div>
     <div class="nav" onclick="goTo('s-fixos')"><i class="ti ti-receipt"></i><span>fixos</span></div>
     <div class="nav" onclick="goTo('s-agenda')"><i class="ti ti-calendar-event"></i><span>agenda</span></div>
-    <div class="nav" onclick="goTo('s-profile')"><i class="ti ti-user"></i><span>perfil</span></div>
+    <div class="nav" onclick="goTo('s-carteira')"><i class="ti ti-wallet"></i><span>carteira</span></div>
   </div>
 </div>
 
@@ -438,7 +435,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
     <div class="nav" onclick="goTo('s-cat')"><i class="ti ti-chart-pie"></i><span>categorias</span></div>
     <div class="nav" onclick="goTo('s-fixos')"><i class="ti ti-receipt"></i><span>fixos</span></div>
     <div class="nav on" onclick="goTo('s-agenda')"><i class="ti ti-calendar-event"></i><span>agenda</span></div>
-    <div class="nav" onclick="goTo('s-profile')"><i class="ti ti-user"></i><span>perfil</span></div>
+    <div class="nav" onclick="goTo('s-carteira')"><i class="ti ti-wallet"></i><span>carteira</span></div>
   </div>
 </div>
 
@@ -481,7 +478,52 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
     <div class="nav" onclick="goTo('s-cat')"><i class="ti ti-chart-pie"></i><span>categorias</span></div>
     <div class="nav" onclick="goTo('s-fixos')"><i class="ti ti-receipt"></i><span>fixos</span></div>
     <div class="nav" onclick="goTo('s-agenda')"><i class="ti ti-calendar-event"></i><span>agenda</span></div>
-    <div class="nav" onclick="goTo('s-profile')"><i class="ti ti-user"></i><span>perfil</span></div>
+    <div class="nav" onclick="goTo('s-carteira')"><i class="ti ti-wallet"></i><span>carteira</span></div>
+  </div>
+</div>
+
+<!-- CARTEIRA -->
+<div class="screen" id="s-carteira">
+  <div class="topbar">
+    <span style="font-size:17px;font-weight:600;padding-left:4px">Carteira</span>
+    <button onclick="openNovoCartao()" style="background:var(--p);border:none;border-radius:10px;padding:7px 14px;color:#fff;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px"><i class="ti ti-plus" style="font-size:15px"></i> Novo</button>
+  </div>
+  <div class="sc">
+    <!-- Resumo -->
+    <div style="margin:0 20px 14px;background:var(--pd);border:0.5px solid var(--pb);border-radius:16px;padding:16px">
+      <div style="font-size:11px;color:#818cf8;margin-bottom:4px">Saldo total disponível</div>
+      <div style="font-size:28px;font-weight:700;color:var(--tx)" id="carteira-saldo-total">R$ 0</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+        <div style="background:#0d0d1a;border-radius:10px;padding:10px">
+          <div style="font-size:10px;color:#818cf8;margin-bottom:2px">Em contas</div>
+          <div style="font-size:15px;font-weight:600;color:var(--tx)" id="carteira-contas-total">R$ 0</div>
+        </div>
+        <div style="background:#0d0d1a;border-radius:10px;padding:10px">
+          <div style="font-size:10px;color:#f87171;margin-bottom:2px">Fatura total</div>
+          <div style="font-size:15px;font-weight:600;color:var(--tx)" id="carteira-fatura-total">R$ 0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contas bancárias -->
+    <div style="padding:0 20px;margin-bottom:16px">
+      <div style="font-size:12px;color:var(--mu);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;font-weight:500">Contas bancárias</div>
+      <div id="contas-list" style="display:flex;flex-direction:column;gap:8px"></div>
+    </div>
+
+    <!-- Cartões de crédito -->
+    <div style="padding:0 20px;margin-bottom:16px">
+      <div style="font-size:12px;color:var(--mu);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;font-weight:500">Cartões de crédito</div>
+      <div id="cartoes-carteira-list" style="display:flex;flex-direction:column;gap:12px"></div>
+    </div>
+  </div>
+  <div class="navbar">
+    <div class="nav" onclick="goTo('s-home')"><i class="ti ti-home"></i><span>início</span></div>
+    <div class="nav" onclick="goTo('s-tx')"><i class="ti ti-list"></i><span>extrato</span></div>
+    <div class="nav" onclick="goTo('s-cat')"><i class="ti ti-chart-pie"></i><span>categorias</span></div>
+    <div class="nav" onclick="goTo('s-fixos')"><i class="ti ti-receipt"></i><span>fixos</span></div>
+    <div class="nav" onclick="goTo('s-agenda')"><i class="ti ti-calendar-event"></i><span>agenda</span></div>
+    <div class="nav on" onclick="goTo('s-carteira')"><i class="ti ti-wallet"></i><span>carteira</span></div>
   </div>
 </div>
 
@@ -509,7 +551,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
     <div class="nav" onclick="goTo('s-cat')"><i class="ti ti-chart-pie"></i><span>categorias</span></div>
     <div class="nav" onclick="goTo('s-fixos')"><i class="ti ti-receipt"></i><span>fixos</span></div>
     <div class="nav" onclick="goTo('s-agenda')"><i class="ti ti-calendar-event"></i><span>agenda</span></div>
-    <div class="nav on" onclick="goTo('s-profile')"><i class="ti ti-user"></i><span>perfil</span></div>
+    <div class="nav on" onclick="goTo('s-carteira')"><i class="ti ti-wallet"></i><span>carteira</span></div>
   </div>
 </div>
 
@@ -542,6 +584,39 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
   </div>
 </div>
 
+<!-- MODAL: NOVA CONTA/CARTÃO -->
+<div class="mo" id="modal-novo-cartao" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="mbox">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h3 style="margin:0" id="novo-cartao-title">Adicionar</h3>
+      <button onclick="document.getElementById('modal-novo-cartao').classList.remove('open')" style="background:none;border:none;color:var(--mu);font-size:20px;cursor:pointer"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="tab-toggle" style="margin-bottom:14px">
+      <button class="tab-btn on" id="tab-conta" onclick="setCarteiraTab('conta')"><i class="ti ti-building-bank"></i> Conta</button>
+      <button class="tab-btn off" id="tab-cartao" onclick="setCarteiraTab('cartao')"><i class="ti ti-credit-card"></i> Cartão</button>
+    </div>
+    <!-- Conta -->
+    <div id="form-conta">
+      <div class="mf"><label>Banco</label><input type="text" id="nc-banco" placeholder="Ex: Nubank, Itaú..."/></div>
+      <div class="mf"><label>Tipo</label><select id="nc-tipo"><option>Conta corrente</option><option>Conta poupança</option><option>Conta digital</option></select></div>
+      <div class="mf"><label>Saldo atual (R$)</label><input type="number" id="nc-saldo" placeholder="0,00" inputmode="decimal"/></div>
+      <div class="mf"><label>Emoji</label><input type="text" id="nc-emoji" placeholder="Ex: 💜" maxlength="2"/></div>
+    </div>
+    <!-- Cartão -->
+    <div id="form-cartao" style="display:none">
+      <div class="mf"><label>Nome do cartão</label><input type="text" id="ncc-nome" placeholder="Ex: Nubank, Bradesco..."/></div>
+      <div class="mf"><label>Bandeira</label><select id="ncc-bandeira"><option>Mastercard</option><option>Visa</option><option>Elo</option><option>Amex</option></select></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div class="mf"><label>Dia fechamento</label><input type="number" id="ncc-fechamento" placeholder="Ex: 3" min="1" max="31" inputmode="numeric"/></div>
+        <div class="mf"><label>Dia vencimento</label><input type="number" id="ncc-vencimento" placeholder="Ex: 10" min="1" max="31" inputmode="numeric"/></div>
+      </div>
+      <div class="mf"><label>Limite (R$)</label><input type="number" id="ncc-limite" placeholder="Ex: 5000" inputmode="decimal"/></div>
+    </div>
+    <button class="save-btn" onclick="saveNovoCartao()">Adicionar</button>
+    <button class="cancel-btn" onclick="document.getElementById('modal-novo-cartao').classList.remove('open')">Cancelar</button>
+  </div>
+</div>
+
 <!-- MODAL: CARTÕES -->
 <div class="mo" id="modal-cartoes" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="mbox" style="max-height:85dvh;display:flex;flex-direction:column">
@@ -565,6 +640,80 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
       </div>
 
       <button class="save-btn" onclick="addCartao()" style="margin-top:4px">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: EDITAR CONTA -->
+<div class="mo" id="modal-edit-conta" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="mbox">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h3 style="margin:0">Editar conta</h3>
+      <button onclick="document.getElementById('modal-edit-conta').classList.remove('open')" style="background:none;border:none;color:var(--mu);font-size:20px;cursor:pointer"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="mf"><label>Banco</label><input type="text" id="ec-nome"/></div>
+    <div class="mf"><label>Tipo</label><select id="ec-tipo"><option>Conta corrente</option><option>Conta poupança</option><option>Conta digital</option></select></div>
+    <div class="mf"><label>Saldo atual (R$)</label><input type="number" id="ec-saldo" inputmode="decimal"/></div>
+    <div class="mf"><label>Emoji</label><input type="text" id="ec-emoji" maxlength="2"/></div>
+    <button class="save-btn" onclick="saveEditConta()">Salvar</button>
+    <button class="cancel-btn" style="margin-top:8px;background:rgba(239,68,68,.1);color:#ef4444;border-color:#ef4444" onclick="delConta(editingContaId)">Excluir conta</button>
+  </div>
+</div>
+
+<!-- MODAL: EDITAR CARTÃO -->
+<div class="mo" id="modal-edit-cartao" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="mbox">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h3 style="margin:0">Editar cartão</h3>
+      <button onclick="document.getElementById('modal-edit-cartao').classList.remove('open')" style="background:none;border:none;color:var(--mu);font-size:20px;cursor:pointer"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="mf"><label>Nome</label><input type="text" id="ecc-nome"/></div>
+    <div class="mf"><label>Bandeira</label><select id="ecc-bandeira"><option>Mastercard</option><option>Visa</option><option>Elo</option><option>Amex</option></select></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div class="mf"><label>Dia fechamento</label><input type="number" id="ecc-fechamento" min="1" max="31" inputmode="numeric"/></div>
+      <div class="mf"><label>Dia vencimento</label><input type="number" id="ecc-vencimento" min="1" max="31" inputmode="numeric"/></div>
+    </div>
+    <div class="mf"><label>Limite total (R$)</label><input type="number" id="ecc-limite" inputmode="decimal"/></div>
+    <div class="mf"><label>Fatura em aberto (R$)</label><input type="number" id="ecc-fatura" inputmode="decimal" placeholder="Valor já gasto neste mês"/></div>
+    <button class="save-btn" onclick="saveEditCartao()">Salvar</button>
+    <button class="cancel-btn" style="margin-top:8px;background:rgba(239,68,68,.1);color:#ef4444;border-color:#ef4444" onclick="delCartao(editingCartaoId)">Excluir cartão</button>
+  </div>
+</div>
+
+<!-- MODAL: PAGAR FATURA -->
+<div class="mo" id="modal-pagar-fatura" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="mbox">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h3 style="margin:0">Pagar fatura</h3>
+      <button onclick="document.getElementById('modal-pagar-fatura').classList.remove('open')" style="background:none;border:none;color:var(--mu);font-size:20px;cursor:pointer"><i class="ti ti-x"></i></button>
+    </div>
+    <div id="pagar-fatura-info" style="background:var(--pd);border-radius:12px;padding:14px;margin-bottom:14px"></div>
+    <div class="mf"><label>Valor pago (R$)</label><input type="number" id="pf-valor" inputmode="decimal"/></div>
+    <div class="mf"><label>Pagar com qual conta?</label><select id="pf-conta"></select></div>
+    <button class="save-btn" onclick="confirmarPagFatura()">Confirmar pagamento</button>
+    <button class="cancel-btn" onclick="document.getElementById('modal-pagar-fatura').classList.remove('open')">Cancelar</button>
+  </div>
+</div>
+
+<!-- MODAL: PERFIL -->
+<div class="mo" id="modal-perfil" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="mbox" style="max-height:85dvh;overflow-y:auto;scrollbar-width:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <h3 style="margin:0">Perfil</h3>
+      <button onclick="document.getElementById('modal-perfil').classList.remove('open')" style="background:none;border:none;color:var(--mu);font-size:20px;cursor:pointer"><i class="ti ti-x"></i></button>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:20px">
+      <div class="avatar" id="modal-perfil-av" onclick="triggerPhotoUpload()" style="width:72px;height:72px;font-size:24px;font-weight:700;border:2px solid var(--p);cursor:pointer">JV</div>
+      <div style="font-size:18px;font-weight:600;color:var(--tx)" id="modal-perfil-name">Jean</div>
+      <div style="font-size:12px;color:var(--mu)">Toque na foto para alterar</div>
+      <div style="font-size:12px;color:#818cf8;background:#1e1b4b;padding:4px 12px;border-radius:20px">✨ Plano ativo</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div class="si" onclick="openNotifModal()"><div class="si-left"><div class="si-icon"><i class="ti ti-bell"></i></div><div><div class="si-name">Notificações</div><div class="si-sub" id="notif-sub2">Todos os alertas ativos</div></div></div><i class="ti ti-chevron-right" style="font-size:16px;color:var(--mu)"></i></div>
+      <div class="si"><div class="si-left"><div class="si-icon"><i class="ti ti-brand-whatsapp"></i></div><div><div class="si-name">WhatsApp conectado</div><div class="si-sub">+55 41 9 ****-8888</div></div></div><i class="ti ti-check" style="font-size:16px;color:#818cf8"></i></div>
+      <div class="si" onclick="openExportModal()"><div class="si-left"><div class="si-icon"><i class="ti ti-file-export"></i></div><div><div class="si-name">Exportar relatório</div><div class="si-sub">PDF ou CSV</div></div></div><i class="ti ti-chevron-right" style="font-size:16px;color:var(--mu)"></i></div>
+      <div class="si" onclick="openCartoesModal()"><div class="si-left"><div class="si-icon"><i class="ti ti-credit-card"></i></div><div><div class="si-name">Meus cartões</div><div class="si-sub" id="cartoes-sub">2 cartões cadastrados</div></div></div><i class="ti ti-chevron-right" style="font-size:16px;color:var(--mu)"></i></div>
+      <div class="si" onclick="doLogout()"><div class="si-left"><div class="si-icon" style="background:#2d1515"><i class="ti ti-logout" style="color:#f87171"></i></div><div><div class="si-name" style="color:#f87171">Sair da conta</div></div></div></div>
     </div>
   </div>
 </div>
@@ -955,9 +1104,14 @@ let gastosFixos=[
   {id:4,nome:'Água',emoji:'💧',cat:'Moradia',dia:20,valor:80,ativo:true},
 ];
 
+let contas=[
+  {id:1,nome:'Nubank',tipo:'Conta corrente',saldo:1850,cor:'#8a05be',emoji:'💜'},
+  {id:2,nome:'Itaú',tipo:'Conta corrente',saldo:3200,cor:'#FF6B00',emoji:'🟠'},
+];
+
 let cartoes=[
-  {id:1,nome:'Nubank',bandeira:'Mastercard',vencimento:10,cor:'#8a05be'},
-  {id:2,nome:'Bradesco',bandeira:'Visa',vencimento:15,cor:'#cc0000'},
+  {id:1,nome:'Nubank',bandeira:'Mastercard',vencimento:10,fechamento:3,limite:5000,fatura:347,cor:'#8a05be'},
+  {id:2,nome:'Bradesco',bandeira:'Visa',vencimento:15,fechamento:8,limite:3000,fatura:120,cor:'#cc0000'},
 ];
 
 let compList=[
@@ -1017,9 +1171,16 @@ function updateDots(){for(let i=0;i<4;i++){document.getElementById('dot'+i).clas
 function pinConfirm(){
   if(pinValue.length<4)return;
   const init=currentEmail.substring(0,2).toUpperCase();
-  document.getElementById('user-av').textContent=init;
-  document.getElementById('profile-av').textContent=init;
-  document.getElementById('profile-name').textContent=currentEmail.split('@')[0];
+  const uav=document.getElementById('user-av');
+  if(uav)uav.textContent=init;
+  const pav=document.getElementById('profile-av');
+  if(pav)pav.textContent=init;
+  const pname=document.getElementById('profile-name');
+  if(pname)pname.textContent=currentEmail.split('@')[0];
+  const mpav=document.getElementById('modal-perfil-av');
+  if(mpav)mpav.textContent=init;
+  const mpname=document.getElementById('modal-perfil-name');
+  if(mpname)mpname.textContent=currentEmail.split('@')[0];
   pinValue='';updateDots();
   // Salvar sessão com timestamp
   localStorage.setItem('paia_email', currentEmail);
@@ -1653,6 +1814,8 @@ function applyRange(){
     txDateStart=calSel1;txDateEnd=calSel2||calSel1;
     const txLbl=document.getElementById('tx-date-label');
     if(txLbl)txLbl.textContent=lbl;
+    const xBtn=document.getElementById('tx-date-x');
+    if(xBtn)xBtn.style.display='inline';
     const clearBtn=document.getElementById('tx-date-clear');
     if(clearBtn)clearBtn.style.display='block';
     renderTxFull();
@@ -2234,11 +2397,20 @@ function saveNovoFixo(){
 
 function renderFixos(){
   const ativos=gastosFixos.filter(g=>g.ativo);
-  const total=ativos.reduce((s,g)=>s+g.valor,0);
+  const totalFixos=ativos.reduce((s,g)=>s+g.valor,0);
+  // Grupos de parcelas pendentes
+  const gruposObj={};
+  txList.filter(t=>t.installment&&!t.pago).forEach(t=>{
+    const b=t.desc.replace(/\s*\(\d+\/\d+\)$/,'');
+    if(!gruposObj[b])gruposObj[b]={val:t.val};
+  });
+  const gruposList=Object.values(gruposObj);
+  const totalParcelas=gruposList.reduce((s,g)=>s+g.val,0);
+  const total=totalFixos+totalParcelas;
   const el=document.getElementById('fixos-total');
   const elc=document.getElementById('fixos-count');
   if(el)el.textContent=fmtS(total);
-  if(elc)elc.textContent=ativos.length;
+  if(elc)elc.textContent=(ativos.length+gruposList.length)+' ativas';
 
   // Parcelas do cartão
   const parcelasEl=document.getElementById('fixos-parcelas');
@@ -2358,6 +2530,228 @@ function saveEditFixo(){
   renderFixos();
 }
 
+// CARTEIRA
+let carteiraTab='conta';
+function openNovoCartao(){
+  carteiraTab='conta';
+  document.getElementById('tab-conta').className='tab-btn on';
+  document.getElementById('tab-cartao').className='tab-btn off';
+  document.getElementById('form-conta').style.display='block';
+  document.getElementById('form-cartao').style.display='none';
+  document.getElementById('nc-banco').value='';
+  document.getElementById('nc-saldo').value='';
+  document.getElementById('nc-emoji').value='';
+  document.getElementById('modal-novo-cartao').classList.add('open');
+}
+function setCarteiraTab(t){
+  carteiraTab=t;
+  document.getElementById('tab-conta').className='tab-btn '+(t==='conta'?'on':'off');
+  document.getElementById('tab-cartao').className='tab-btn '+(t==='cartao'?'on':'off');
+  document.getElementById('form-conta').style.display=t==='conta'?'block':'none';
+  document.getElementById('form-cartao').style.display=t==='cartao'?'block':'none';
+}
+function saveNovoCartao(){
+  if(carteiraTab==='conta'){
+    const nome=document.getElementById('nc-banco').value.trim();
+    const tipo=document.getElementById('nc-tipo').value;
+    const saldo=parseFloat(document.getElementById('nc-saldo').value)||0;
+    const emoji=document.getElementById('nc-emoji').value.trim()||'🏦';
+    if(!nome)return alert('Digite o nome do banco!');
+    contas.push({id:Date.now(),nome,tipo,saldo,emoji,cor:'#6c63ff'});
+    showToast('✅ Conta adicionada!');
+  } else {
+    const nome=document.getElementById('ncc-nome').value.trim();
+    const bandeira=document.getElementById('ncc-bandeira').value;
+    const fechamento=parseInt(document.getElementById('ncc-fechamento').value)||1;
+    const vencimento=parseInt(document.getElementById('ncc-vencimento').value)||10;
+    const limite=parseFloat(document.getElementById('ncc-limite').value)||0;
+    if(!nome)return alert('Digite o nome do cartão!');
+    const cores={'Mastercard':'#eb5b25','Visa':'#1a73e8','Elo':'#f59e0b','Amex':'#22c55e'};
+    cartoes.push({id:Date.now(),nome,bandeira,vencimento,fechamento,limite,fatura:0,cor:cores[bandeira]||'#6c63ff'});
+    showToast('✅ Cartão adicionado!');
+  }
+  document.getElementById('modal-novo-cartao').classList.remove('open');
+  renderCarteira();
+}
+function renderCarteira(){
+  // Saldo total contas
+  const totalContas=contas.reduce((s,c)=>s+c.saldo,0);
+  const totalFatura=cartoes.reduce((s,c)=>s+(c.fatura||0),0);
+  const el1=document.getElementById('carteira-saldo-total');
+  const el2=document.getElementById('carteira-contas-total');
+  const el3=document.getElementById('carteira-fatura-total');
+  if(el1)el1.textContent=fmtS(totalContas-totalFatura);
+  if(el2)el2.textContent=fmtS(totalContas);
+  if(el3)el3.textContent=fmtS(totalFatura);
+
+  // Contas bancárias
+  const contasEl=document.getElementById('contas-list');
+  if(contasEl){
+    contasEl.innerHTML=contas.length?contas.map(c=>`
+      <div style="background:var(--pm);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px">
+        <div style="width:42px;height:42px;border-radius:12px;background:${c.cor}22;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">${c.emoji}</div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:500;color:var(--tx)">${c.nome}</div>
+          <div style="font-size:12px;color:var(--mu)">${c.tipo}</div>
+        </div>
+        <div style="text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div style="font-size:16px;font-weight:600;color:#22c55e">${fmtS(c.saldo)}</div>
+          <button onclick="editConta(${c.id})" style="background:none;border:none;color:#818cf8;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:3px"><i class="ti ti-pencil"></i> editar</button>
+        </div>
+      </div>`).join(''):'<div style="text-align:center;color:var(--mu);padding:16px;font-size:13px">Nenhuma conta cadastrada</div>';
+  }
+
+  // Cartões
+  const cartoesEl=document.getElementById('cartoes-carteira-list');
+  if(cartoesEl){
+    cartoesEl.innerHTML=cartoes.length?cartoes.map(c=>{
+      const usado=c.fatura||0;
+      const pct=c.limite>0?Math.round(usado/c.limite*100):0;
+      const disponivel=c.limite-usado;
+      return`<div style="background:var(--pm);border-radius:16px;overflow:hidden">
+        <div style="background:linear-gradient(135deg,${c.cor}cc,${c.cor}66);padding:16px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+            <div>
+              <div style="font-size:16px;font-weight:600;color:#fff">${c.nome}</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.7)">${c.bandeira}</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:10px;color:rgba(255,255,255,.7)">Limite</div>
+              <div style="font-size:14px;font-weight:600;color:#fff">${fmtS(c.limite)}</div>
+            </div>
+          </div>
+          <div style="height:5px;background:rgba(255,255,255,.2);border-radius:3px;overflow:hidden;margin-bottom:8px">
+            <div style="width:${pct}%;height:100%;background:#fff;border-radius:3px"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <div><div style="font-size:10px;color:rgba(255,255,255,.7)">Fatura atual</div><div style="font-size:15px;font-weight:600;color:#fff">${fmtS(usado)}</div></div>
+            <div style="text-align:right"><div style="font-size:10px;color:rgba(255,255,255,.7)">Disponível</div><div style="font-size:15px;font-weight:600;color:#fff">${fmtS(disponivel)}</div></div>
+          </div>
+        </div>
+        <div style="padding:10px 16px;display:flex;justify-content:space-between;align-items:center">
+          <div style="display:flex;gap:12px">
+            <div style="display:flex;align-items:center;gap:4px"><i class="ti ti-calendar" style="font-size:12px;color:var(--mu)"></i><span style="font-size:11px;color:var(--mu)">Fecha dia ${c.fechamento||'—'}</span></div>
+            <div style="display:flex;align-items:center;gap:4px"><i class="ti ti-clock" style="font-size:12px;color:#f87171"></i><span style="font-size:11px;color:#f87171">Vence dia ${c.vencimento}</span></div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button onclick="editCartao(${c.id})" style="background:var(--pd);border:0.5px solid var(--pb);border-radius:8px;padding:5px 10px;color:#818cf8;font-size:12px;cursor:pointer"><i class="ti ti-pencil"></i></button>
+            <button onclick="abrirPagarFatura(${c.id})" style="background:var(--pd);border:0.5px solid var(--pb);border-radius:8px;padding:5px 10px;color:#22c55e;font-size:12px;cursor:pointer">Pagar fatura</button>
+          </div>
+        </div>
+      </div>`;
+    }).join(''):'<div style="text-align:center;color:var(--mu);padding:16px;font-size:13px">Nenhum cartão cadastrado</div>';
+  }
+}
+
+// EDITAR CONTA
+let editingContaId=null;
+function editConta(id){
+  const c=contas.find(x=>x.id===id);
+  if(!c)return;
+  editingContaId=id;
+  document.getElementById('ec-nome').value=c.nome;
+  document.getElementById('ec-tipo').value=c.tipo;
+  document.getElementById('ec-saldo').value=c.saldo;
+  document.getElementById('ec-emoji').value=c.emoji;
+  document.getElementById('modal-edit-conta').classList.add('open');
+}
+function saveEditConta(){
+  const c=contas.find(x=>x.id===editingContaId);
+  if(!c)return;
+  c.nome=document.getElementById('ec-nome').value.trim()||c.nome;
+  c.tipo=document.getElementById('ec-tipo').value;
+  c.saldo=parseFloat(document.getElementById('ec-saldo').value)||c.saldo;
+  c.emoji=document.getElementById('ec-emoji').value.trim()||c.emoji;
+  document.getElementById('modal-edit-conta').classList.remove('open');
+  showToast('✅ Conta atualizada!');
+  renderCarteira();
+}
+function delConta(id){
+  contas=contas.filter(c=>c.id!==id);
+  document.getElementById('modal-edit-conta').classList.remove('open');
+  showToast('🗑️ Conta removida');
+  renderCarteira();
+}
+
+// EDITAR CARTÃO
+let editingCartaoId=null;
+function editCartao(id){
+  const c=cartoes.find(x=>x.id===id);
+  if(!c)return;
+  editingCartaoId=id;
+  document.getElementById('ecc-nome').value=c.nome;
+  document.getElementById('ecc-bandeira').value=c.bandeira;
+  document.getElementById('ecc-fechamento').value=c.fechamento||'';
+  document.getElementById('ecc-vencimento').value=c.vencimento;
+  document.getElementById('ecc-limite').value=c.limite;
+  document.getElementById('ecc-fatura').value=c.fatura||0;
+  document.getElementById('modal-edit-cartao').classList.add('open');
+}
+function saveEditCartao(){
+  const c=cartoes.find(x=>x.id===editingCartaoId);
+  if(!c)return;
+  c.nome=document.getElementById('ecc-nome').value.trim()||c.nome;
+  c.bandeira=document.getElementById('ecc-bandeira').value;
+  c.fechamento=parseInt(document.getElementById('ecc-fechamento').value)||c.fechamento;
+  c.vencimento=parseInt(document.getElementById('ecc-vencimento').value)||c.vencimento;
+  c.limite=parseFloat(document.getElementById('ecc-limite').value)||c.limite;
+  c.fatura=parseFloat(document.getElementById('ecc-fatura').value)||0;
+  document.getElementById('modal-edit-cartao').classList.remove('open');
+  showToast('✅ Cartão atualizado!');
+  renderCarteira();
+}
+function delCartao(id){
+  cartoes=cartoes.filter(c=>c.id!==id);
+  document.getElementById('modal-edit-cartao').classList.remove('open');
+  showToast('🗑️ Cartão removido');
+  renderCarteira();
+}
+
+// PAGAR FATURA
+let pagandoFaturaId=null;
+function abrirPagarFatura(id){
+  const c=cartoes.find(x=>x.id===id);
+  if(!c)return;
+  pagandoFaturaId=id;
+  document.getElementById('pagar-fatura-info').innerHTML=`
+    <div style="font-size:14px;font-weight:500;color:var(--tx);margin-bottom:8px">${c.nome}</div>
+    <div style="display:flex;justify-content:space-between"><span style="color:var(--mu);font-size:13px">Fatura em aberto</span><span style="font-size:15px;font-weight:600;color:#ef4444">${fmtS(c.fatura||0)}</span></div>
+    <div style="display:flex;justify-content:space-between;margin-top:4px"><span style="color:var(--mu);font-size:13px">Vencimento</span><span style="font-size:13px;color:var(--tx)">Dia ${c.vencimento}</span></div>`;
+  document.getElementById('pf-valor').value=c.fatura||0;
+  const sel=document.getElementById('pf-conta');
+  sel.innerHTML=contas.map(ct=>`<option value="${ct.id}">${ct.emoji} ${ct.nome} (${fmtS(ct.saldo)})</option>`).join('');
+  document.getElementById('modal-pagar-fatura').classList.add('open');
+}
+function confirmarPagFatura(){
+  const c=cartoes.find(x=>x.id===pagandoFaturaId);
+  if(!c)return;
+  const valor=parseFloat(document.getElementById('pf-valor').value)||0;
+  const contaId=parseInt(document.getElementById('pf-conta').value);
+  const conta=contas.find(x=>x.id===contaId);
+  if(conta){
+    conta.saldo=Math.max(0,conta.saldo-valor);
+    // Registrar no extrato
+    txList.push({type:'despesa',desc:'Fatura '+c.nome,cat:'Moradia',val:valor,
+      date:new Date().toISOString().split('T')[0],emoji:'💳',method:'Débito',
+      time:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})});
+  }
+  c.fatura=Math.max(0,(c.fatura||0)-valor);
+  document.getElementById('modal-pagar-fatura').classList.remove('open');
+  showToast('✅ Fatura paga! Saldo atualizado.');
+  renderCarteira();
+  updateHome();
+}
+
+// PERFIL MODAL
+function openPerfilModal(){
+  const av=document.getElementById('user-av');
+  const modalAv=document.getElementById('modal-perfil-av');
+  const modalName=document.getElementById('modal-perfil-name');
+  if(modalAv&&av)modalAv.innerHTML=av.innerHTML;
+  if(modalName)modalName.textContent=document.getElementById('profile-name')?.textContent||'';
+  document.getElementById('modal-perfil').classList.add('open');
+}
+
 function goTo(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   const screen=document.getElementById(id);
@@ -2369,6 +2763,7 @@ function goTo(id){
     if(id==='s-cat')renderCats();
     if(id==='s-agenda')renderAgenda();
     if(id==='s-fixos')renderFixos();
+    if(id==='s-carteira')renderCarteira();
   });
 }
 
