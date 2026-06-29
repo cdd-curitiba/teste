@@ -19,7 +19,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 @keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .sc{flex:1;overflow-y:auto;padding-bottom:8px;scrollbar-width:none}
 .sc::-webkit-scrollbar{display:none}
-.topbar{padding:calc(env(safe-area-inset-top) + 14px) 24px 12px;display:flex;align-items:center;justify-content:space-between;background:#0d0d1a;flex-shrink:0}
+.topbar{padding:calc(env(safe-area-inset-top) + 14px) 20px 12px;display:flex;align-items:center;justify-content:space-between;background:#0d0d1a;flex-shrink:0}
 .navbar{background:var(--pm);border-top:0.5px solid var(--pb);padding:10px 0 0;padding-bottom:max(28px,env(safe-area-inset-bottom));display:flex;justify-content:space-around;flex-shrink:0;position:sticky;bottom:0}
 .nav{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;min-width:48px;padding:4px;border-radius:10px}
 .nav:active{background:var(--pd)}
@@ -51,7 +51,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 
 /* PERIOD SELECTOR */
 .period-wrap{padding:0 20px;margin-bottom:14px}
-.period-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.period-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding:0 4px}
 .period-head span{font-size:12px;color:var(--so)}
 .period-btn{font-size:12px;color:var(--p);background:none;border:none;cursor:pointer}
 .period-pills{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
@@ -62,7 +62,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 
 /* CHART */
 .section{padding:0 20px;margin-bottom:14px}
-.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding:0 4px}
 .sh h2{font-size:13px;font-weight:500;color:var(--so)}
 .sh a{font-size:12px;color:var(--p);cursor:pointer}
 
@@ -282,8 +282,8 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 <!-- HOME -->
 <div class="screen" id="s-home">
   <div class="topbar">
-    <div class="logo-wrap"><div class="logo-icon">🧠</div><div class="logo-text">Planeja<span>IA</span></div></div>
-    <div class="avatar" id="user-av" onclick="triggerPhotoUpload()" title="Alterar foto">JV</div>
+    <div class="logo-wrap" style="padding-left:4px"><div class="logo-icon">🧠</div><div class="logo-text">Planeja<span>IA</span></div></div>
+    <div class="avatar" id="user-av" onclick="triggerPhotoUpload()" title="Alterar foto" style="margin-right:4px">JV</div>
   </div>
   <div class="sc">
     <div class="hero">
@@ -358,7 +358,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 
 <!-- EXTRATO -->
 <div class="screen" id="s-tx">
-  <div class="topbar"><span style="font-size:17px;font-weight:600">Extrato</span><button class="fab sfab" onclick="openTxModal()"><i class="ti ti-plus sfab"></i></button></div>
+  <div class="topbar"><span style="font-size:17px;font-weight:600;padding-left:4px">Extrato</span><button class="fab sfab" onclick="openTxModal()"><i class="ti ti-plus sfab"></i></button></div>
   <div class="pills">
     <button class="pill on" onclick="filterTx('all',this)">Todas</button>
     <button class="pill off" onclick="filterTx('receita',this)">Entradas</button>
@@ -395,7 +395,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 <!-- CATEGORIAS -->
 <div class="screen" id="s-cat">
   <div class="topbar">
-    <span style="font-size:17px;font-weight:600">Categorias</span>
+    <span style="font-size:17px;font-weight:600;padding-left:4px">Categorias</span>
     <button onclick="openNewCat()" style="background:var(--p);border:none;border-radius:10px;padding:7px 14px;color:#fff;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px"><i class="ti ti-plus" style="font-size:15px"></i> Nova</button>
   </div>
   <div class="sc">
@@ -421,7 +421,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 
 <!-- AGENDA -->
 <div class="screen" id="s-agenda">
-  <div class="topbar"><span style="font-size:17px;font-weight:600">Agenda</span><button class="fab sfab" onclick="openCompModal()"><i class="ti ti-plus" style="font-size:18px"></i></button></div>
+  <div class="topbar"><span style="font-size:17px;font-weight:600;padding-left:4px">Agenda</span><button class="fab sfab" onclick="openCompModal()"><i class="ti ti-plus" style="font-size:18px"></i></button></div>
   <div class="pills">
     <button class="pill on" onclick="filterAgenda('all',this)">Todos</button>
     <button class="pill off" onclick="filterAgenda('upcoming',this)">Próximos</button>
@@ -439,7 +439,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 
 <!-- PERFIL -->
 <div class="screen" id="s-profile">
-  <div class="topbar"><span style="font-size:17px;font-weight:600">Perfil</span></div>
+  <div class="topbar"><span style="font-size:17px;font-weight:600;padding-left:4px">Perfil</span></div>
   <div class="sc">
     <div class="profile-hero">
       <div class="avatar" id="profile-av" onclick="triggerPhotoUpload()" style="width:72px;height:72px;font-size:24px;font-weight:700;border:2px solid var(--p)">JV</div>
