@@ -19,7 +19,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 @keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .sc{flex:1;overflow-y:auto;padding-bottom:8px;scrollbar-width:none}
 .sc::-webkit-scrollbar{display:none}
-.topbar{padding:max(52px,calc(env(safe-area-inset-top)+12px)) 20px 12px;display:flex;align-items:center;justify-content:space-between;background:#0d0d1a;flex-shrink:0}
+.topbar{padding:max(12px,calc(env(safe-area-inset-top)+12px)) 20px 10px;display:flex;align-items:center;justify-content:space-between;background:#0d0d1a;flex-shrink:0}
 .navbar{background:var(--pm);border-top:0.5px solid var(--pb);padding:10px 0 0;padding-bottom:max(28px,env(safe-area-inset-bottom));display:flex;justify-content:space-around;flex-shrink:0;position:sticky;bottom:0}
 .nav{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;min-width:48px;padding:4px;border-radius:10px}
 .nav:active{background:var(--pd)}
@@ -30,7 +30,8 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 .logo-icon{width:30px;height:30px;background:var(--p);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
 .logo-text{font-size:16px;font-weight:600;color:var(--tx)}
 .logo-text span{color:var(--p)}
-.avatar{width:34px;height:34px;border-radius:50%;background:#1e1b4b;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#818cf8}
+.avatar{width:36px;height:36px;border-radius:50%;background:#1e1b4b;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#818cf8;cursor:pointer;overflow:hidden;border:2px solid var(--pb);flex-shrink:0}
+.avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .fab{width:52px;height:52px;background:var(--p);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none}
 .fab:active{opacity:.85}
 .fab i{font-size:26px;color:#fff}
@@ -64,13 +65,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .sh h2{font-size:13px;font-weight:500;color:var(--so)}
 .sh a{font-size:12px;color:var(--p);cursor:pointer}
-.chart-wrap{background:var(--pm);border-radius:14px;padding:14px 16px;display:flex;align-items:flex-end;gap:8px;height:90px}
-.bc{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
-.bg{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:4px}
-.b{width:12px;border-radius:4px 4px 0 0}
-.b.p{background:var(--p)}
-.b.r{background:var(--red)}
-.bl{font-size:10px;color:var(--mu)}
+
 
 /* TX */
 .tx-list{display:flex;flex-direction:column;gap:8px;padding:0 20px}
@@ -149,7 +144,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 .si-sub{font-size:11px;color:var(--mu);margin-top:1px}
 
 /* LOGIN */
-.login-wrap{flex:1;display:flex;flex-direction:column;padding:max(52px,calc(env(safe-area-inset-top)+16px)) 24px max(32px,calc(env(safe-area-inset-bottom)+16px))}
+.login-wrap{flex:1;display:flex;flex-direction:column;padding:max(20px,calc(env(safe-area-inset-top)+16px)) 24px max(32px,calc(env(safe-area-inset-bottom)+16px))}
 .install-banner{background:var(--pd);border:0.5px solid var(--pb);border-radius:16px;padding:16px;margin-bottom:28px}
 .install-banner h3{font-size:13px;font-weight:600;color:#818cf8;margin-bottom:6px;text-align:center}
 .install-banner p{font-size:12px;color:var(--mu);text-align:center;margin-bottom:12px}
@@ -220,7 +215,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 .cal-action.on{background:var(--p);color:#fff;border-color:var(--p)}
 
 /* NOTIF TOAST */
-.toast{position:fixed;top:max(60px,calc(env(safe-area-inset-top)+12px));left:50%;transform:translateX(-50%);background:#1a1a2e;border:0.5px solid var(--pb);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--tx);z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;max-width:360px;width:90%}
+.toast{position:fixed;top:max(60px,calc(env(safe-area-inset-top)+12px));left:50%;transform:translateX(-50%);background:#1a1a2e;border:0.5px solid var(--pb);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--tx);z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;width:calc(min(100vw,430px) - 40px)}
 .toast.show{opacity:1}
 .toast i{font-size:18px;color:var(--p);flex-shrink:0}
 
@@ -234,8 +229,6 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 <body>
 
 <!-- TOAST -->
-<div class="toast" id="toast"><i class="ti ti-bell"></i><span id="toast-msg"></span></div>
-
 <!-- LOGIN -->
 <div class="screen active" id="s-login">
   <div class="login-wrap">
@@ -283,7 +276,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 <div class="screen" id="s-home">
   <div class="topbar">
     <div class="logo-wrap"><div class="logo-icon">🧠</div><div class="logo-text">Planeja<span>IA</span></div></div>
-    <div class="avatar" id="user-av">JV</div>
+    <div class="avatar" id="user-av" onclick="triggerPhotoUpload()" title="Alterar foto">JV</div>
   </div>
   <div class="sc">
     <div class="hero">
@@ -294,6 +287,18 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
         <div class="mini-card"><div class="mini-label r"><i class="ti ti-arrow-up" style="font-size:12px"></i> Saídas</div><div class="mini-val" id="h-saida">R$ 1.847</div></div>
       </div>
     </div>
+    <div class="section">
+      <div class="sh"><h2>Gastos por dia</h2><span id="week-range-label" style="font-size:11px;color:var(--mu)"></span></div>
+      <div style="background:var(--pm);border-radius:14px;padding:14px 16px">
+        <div id="daily-bars" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:12px"></div>
+        <div style="height:0.5px;background:var(--pb);margin-bottom:10px"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center">
+          <div><div style="font-size:10px;color:var(--mu);margin-bottom:2px">Total gasto</div><div style="font-size:13px;font-weight:500;color:#ef4444" id="week-total-val">R$ 0</div></div>
+          <div><div style="font-size:10px;color:var(--mu);margin-bottom:2px">Maior dia</div><div style="font-size:13px;font-weight:500;color:var(--tx)" id="week-best-day">—</div></div>
+          <div><div style="font-size:10px;color:var(--mu);margin-bottom:2px">Dias sem gasto</div><div style="font-size:13px;font-weight:500;color:#22c55e" id="week-zero-days">—</div></div>
+        </div>
+      </div>
+    </div>
     <div class="period-wrap">
       <div class="period-head"><span>Período selecionado</span><button class="period-btn" onclick="openCal()"><i class="ti ti-calendar" style="font-size:13px;vertical-align:-2px"></i> Personalizar</button></div>
       <div class="period-pills">
@@ -301,15 +306,6 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
         <button class="pp off" onclick="setPeriod('week',this)">Esta semana</button>
         <button class="pp off" onclick="setPeriod('month',this)">Este mês</button>
         <button class="pp off" onclick="setPeriod('custom',this)" id="pp-custom" style="display:none">Personalizado</button>
-      </div>
-    </div>
-    <div class="section">
-      <div class="sh"><h2>Gastos por semana</h2></div>
-      <div class="chart-wrap">
-        <div class="bc"><div class="bg"><div class="b p" style="height:42px"></div><div class="b r" style="height:28px"></div></div><div class="bl">S1</div></div>
-        <div class="bc"><div class="bg"><div class="b p" style="height:22px"></div><div class="b r" style="height:50px"></div></div><div class="bl">S2</div></div>
-        <div class="bc"><div class="bg"><div class="b p" style="height:34px"></div><div class="b r" style="height:18px"></div></div><div class="bl">S3</div></div>
-        <div class="bc"><div class="bg"><div class="b p" style="height:52px"></div><div class="b r" style="height:14px"></div></div><div class="bl">S4</div></div>
       </div>
     </div>
     <div class="section"><div class="sh"><h2>Últimas transações</h2><a onclick="goTo('s-tx')">ver tudo</a></div></div>
@@ -328,8 +324,22 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
         <div class="pie-legend" id="home-pay-legend"></div>
       </div>
     </div>
+    <div class="section" style="margin-top:4px">
+      <div class="sh"><h2>Resumo da semana</h2><span id="week-date-range" style="font-size:11px;color:var(--mu)"></span></div>
+      <div id="week-summary-card" style="background:var(--pm);border-radius:14px;padding:16px;cursor:pointer" onclick="openWeekSummary()">
+        <div id="week-summary-preview" style="display:flex;align-items:center;gap:12px">
+          <div style="width:44px;height:44px;border-radius:12px;background:var(--pd);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0" id="week-emoji">📊</div>
+          <div style="flex:1">
+            <div style="font-size:14px;font-weight:500;color:var(--tx)" id="week-title">Ver resumo da semana</div>
+            <div style="font-size:12px;color:var(--mu);margin-top:2px" id="week-subtitle">Toque para ver como foi sua semana</div>
+          </div>
+          <i class="ti ti-chevron-right" style="font-size:16px;color:var(--mu)"></i>
+        </div>
+      </div>
+    </div>
     <div class="fab-wrap"><button class="fab" onclick="openTxModal()"><i class="ti ti-plus"></i></button></div>
   </div>
+
   <div class="navbar">
     <div class="nav on" onclick="goTo('s-home')"><i class="ti ti-home"></i><span>início</span></div>
     <div class="nav" onclick="goTo('s-tx')"><i class="ti ti-list"></i><span>extrato</span></div>
@@ -377,7 +387,10 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 
 <!-- CATEGORIAS -->
 <div class="screen" id="s-cat">
-  <div class="topbar"><span style="font-size:17px;font-weight:600">Categorias</span></div>
+  <div class="topbar">
+    <span style="font-size:17px;font-weight:600">Categorias</span>
+    <button onclick="openNewCat()" style="background:var(--p);border:none;border-radius:10px;padding:7px 14px;color:#fff;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px"><i class="ti ti-plus" style="font-size:15px"></i> Nova</button>
+  </div>
   <div class="sc">
     <div class="cat-summary">
       <div><div style="font-size:11px;color:#818cf8;margin-bottom:4px">Total gasto</div><div style="font-size:22px;font-weight:700;color:var(--tx)" id="cat-total">R$ 1.847</div></div>
@@ -466,6 +479,30 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
       </div>
 
       <button class="save-btn" onclick="addCartao()" style="margin-top:4px">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: GASTOS DO DIA -->
+<div class="mo" id="modal-day" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="mbox" style="max-height:85dvh;display:flex;flex-direction:column">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-shrink:0">
+      <h3 id="day-modal-title" style="margin:0">Gastos do dia</h3>
+      <button onclick="document.getElementById('modal-day').classList.remove('open')" style="background:none;border:none;color:var(--mu);font-size:20px;cursor:pointer"><i class="ti ti-x"></i></button>
+    </div>
+    <div id="day-modal-content" style="overflow-y:auto;flex:1;scrollbar-width:none"></div>
+  </div>
+</div>
+
+<!-- MODAL: RESUMO SEMANAL -->
+<div class="mo" id="modal-week" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="mbox" style="max-height:85dvh;display:flex;flex-direction:column">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-shrink:0">
+      <h3 style="margin:0">📊 Resumo da semana</h3>
+      <button onclick="document.getElementById('modal-week').classList.remove('open')" style="background:none;border:none;color:var(--mu);font-size:20px;cursor:pointer"><i class="ti ti-x"></i></button>
+    </div>
+    <div id="week-modal-content" style="overflow-y:auto;flex:1;scrollbar-width:none">
+      <div style="text-align:center;padding:40px;color:var(--mu);font-size:14px">Carregando análise...</div>
     </div>
   </div>
 </div>
@@ -592,6 +629,28 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
   </div>
 </div>
 
+<!-- MODAL: EDITAR TRANSAÇÃO -->
+<div class="mo" id="modal-edit-tx" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="mbox">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h3 style="margin:0">Editar lançamento</h3>
+      <button onclick="document.getElementById('modal-edit-tx').classList.remove('open')" style="background:none;border:none;color:var(--mu);font-size:20px;cursor:pointer"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="mf"><label>Descrição</label><input type="text" id="et-desc"/></div>
+    <div class="mf"><label>Categoria</label><select id="et-cat"></select></div>
+    <div class="mf"><label>Método de pagamento</label>
+      <select id="et-method">
+        <option value="Débito">💳 Débito</option>
+        <option value="Crédito">💳 Crédito</option>
+        <option value="PIX">⚡ PIX</option>
+        <option value="Dinheiro">💵 Dinheiro</option>
+      </select>
+    </div>
+    <button class="save-btn" onclick="saveEditTx()">Salvar alterações</button>
+    <button class="cancel-btn" onclick="document.getElementById('modal-edit-tx').classList.remove('open')">Cancelar</button>
+  </div>
+</div>
+
 <!-- MODAL: DETALHE TRANSAÇÃO -->
 <div class="mo" id="modal-tx-detail" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="mbox" style="max-height:85dvh;overflow-y:auto;scrollbar-width:none">
@@ -625,7 +684,42 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
         <span class="detail-val" id="td-time"></span>
       </div>
     </div>
-    <button class="cancel-btn" style="margin-top:16px" onclick="document.getElementById('modal-tx-detail').classList.remove('open')">Fechar</button>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px">
+      <button class="cancel-btn" style="margin-top:0" onclick="document.getElementById('modal-tx-detail').classList.remove('open')">Fechar</button>
+      <button class="save-btn" style="margin-top:0" onclick="openEditTx(currentTxDetailIdx)">✏️ Editar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: NOVA CATEGORIA -->
+<div class="mo" id="modal-new-cat" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="mbox">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h3 style="margin:0">Nova categoria</h3>
+      <button onclick="document.getElementById('modal-new-cat').classList.remove('open')" style="background:none;border:none;color:var(--mu);font-size:20px;cursor:pointer"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="mf"><label>Nome</label><input type="text" id="nc-nome" placeholder="Ex: Pets, Academia, Assinaturas..."/></div>
+    <div class="mf"><label>Emoji</label><input type="text" id="nc-emoji" placeholder="Ex: 🐶" maxlength="2"/></div>
+    <div class="mf"><label>Limite mensal (R$)</label><input type="number" id="nc-limit" placeholder="Ex: 300" inputmode="decimal"/></div>
+    <button class="save-btn" onclick="saveNewCat()">Criar categoria</button>
+    <button class="cancel-btn" onclick="document.getElementById('modal-new-cat').classList.remove('open')">Cancelar</button>
+  </div>
+</div>
+
+<!-- MODAL: EDITAR LIMITE -->
+<div class="mo" id="modal-limit" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="mbox">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h3 id="limit-title" style="margin:0">Editar limite</h3>
+      <button onclick="document.getElementById('modal-limit').classList.remove('open')" style="background:none;border:none;color:var(--mu);font-size:20px;cursor:pointer"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="mf">
+      <label>Limite mensal (R$)</label>
+      <input type="number" id="limit-input" placeholder="Ex: 500" inputmode="decimal"/>
+    </div>
+    <p style="font-size:12px;color:var(--mu);margin-bottom:16px">A barra de progresso vai mostrar quanto você já gastou em relação a esse limite.</p>
+    <button class="save-btn" onclick="saveLimit()">Salvar limite</button>
+    <button class="cancel-btn" onclick="document.getElementById('modal-limit').classList.remove('open')">Cancelar</button>
   </div>
 </div>
 
@@ -642,8 +736,9 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
   </div>
 </div>
 
+<input type="file" id="photo-input" accept="image/*" style="display:none" onchange="handlePhotoUpload(this)">
 <script>
-const CATS=[{name:'Moradia',emoji:'🏠',color:'#6c63ff',limit:1500},{name:'Alimentação',emoji:'🛒',color:'#ef4444',limit:400},{name:'Transporte',emoji:'🚗',color:'#3b82f6',limit:400},{name:'Saúde',emoji:'💊',color:'#f59e0b',limit:400},{name:'Lazer',emoji:'🎮',color:'#22c55e',limit:300}];
+const CATS=[{name:'Moradia',emoji:'🏠',color:'#6c63ff',limit:1500},{name:'Alimentação',emoji:'🛒',color:'#ef4444',limit:400},{name:'Transporte',emoji:'🚗',color:'#3b82f6',limit:400},{name:'Saúde',emoji:'💊',color:'#f59e0b',limit:400},{name:'Lazer',emoji:'🎮',color:'#22c55e',limit:300},{name:'Educação',emoji:'📚',color:'#ec4899',limit:500}];
 const EMOJIS={Alimentação:'🛒',Moradia:'🏠',Transporte:'🚗',Saúde:'💊',Lazer:'🎮',Educação:'📚',Salário:'💼',Freelance:'💻',Outros:'💰'};
 
 let txFilter='all',txSort='desc',txMethod='all';
@@ -653,13 +748,28 @@ let txList=[
   {type:'despesa',desc:'Aluguel',cat:'Moradia',val:1200,date:'2026-06-05',emoji:'🏠',method:'Débito',time:'09:30'},
   {type:'despesa',desc:'Mercado',cat:'Alimentação',val:347,date:'2026-06-20',emoji:'🛒',method:'Crédito',time:'14:22'},
   {type:'despesa',desc:'Mercado',cat:'Alimentação',val:89,date:'2026-06-20',emoji:'🛒',method:'Dinheiro',time:'09:10'},
-  {type:'despesa',desc:'Celular (1/12)',cat:'Lazer',val:99.92,date:'2026-06-10',emoji:'📱',method:'Crédito',time:'10:00',installment:true,installmentNum:1,installmentTotal:12},
-  {type:'despesa',desc:'Celular (2/12)',cat:'Lazer',val:99.92,date:'2026-07-10',emoji:'📱',method:'Crédito',time:'10:00',installment:true,installmentNum:2,installmentTotal:12},
+  {type:'despesa',desc:'Celular (1/12)',cat:'Lazer',val:99.92,date:'2026-06-10',emoji:'📱',method:'Crédito',time:'10:00',installment:true,installmentNum:1,installmentTotal:12,pago:true},
+  {type:'despesa',desc:'Celular (2/12)',cat:'Lazer',val:99.92,date:'2026-07-10',emoji:'📱',method:'Crédito',time:'10:00',installment:true,installmentNum:2,installmentTotal:12,pago:true},
   {type:'despesa',desc:'Celular (3/12)',cat:'Lazer',val:99.92,date:'2026-08-10',emoji:'📱',method:'Crédito',time:'10:00',installment:true,installmentNum:3,installmentTotal:12},
+  {type:'despesa',desc:'Celular (4/12)',cat:'Lazer',val:99.92,date:'2026-09-10',emoji:'📱',method:'Crédito',time:'10:00',installment:true,installmentNum:4,installmentTotal:12},
+  {type:'despesa',desc:'Celular (5/12)',cat:'Lazer',val:99.92,date:'2026-10-10',emoji:'📱',method:'Crédito',time:'10:00',installment:true,installmentNum:5,installmentTotal:12},
+  {type:'despesa',desc:'Celular (6/12)',cat:'Lazer',val:99.92,date:'2026-11-10',emoji:'📱',method:'Crédito',time:'10:00',installment:true,installmentNum:6,installmentTotal:12},
+  {type:'despesa',desc:'Celular (7/12)',cat:'Lazer',val:99.92,date:'2026-12-10',emoji:'📱',method:'Crédito',time:'10:00',installment:true,installmentNum:7,installmentTotal:12},
+  {type:'despesa',desc:'Celular (8/12)',cat:'Lazer',val:99.92,date:'2027-01-10',emoji:'📱',method:'Crédito',time:'10:00',installment:true,installmentNum:8,installmentTotal:12},
+  {type:'despesa',desc:'Celular (9/12)',cat:'Lazer',val:99.92,date:'2027-02-10',emoji:'📱',method:'Crédito',time:'10:00',installment:true,installmentNum:9,installmentTotal:12},
+  {type:'despesa',desc:'Celular (10/12)',cat:'Lazer',val:99.92,date:'2027-03-10',emoji:'📱',method:'Crédito',time:'10:00',installment:true,installmentNum:10,installmentTotal:12},
+  {type:'despesa',desc:'Celular (11/12)',cat:'Lazer',val:99.92,date:'2027-04-10',emoji:'📱',method:'Crédito',time:'10:00',installment:true,installmentNum:11,installmentTotal:12},
+  {type:'despesa',desc:'Celular (12/12)',cat:'Lazer',val:99.92,date:'2027-05-10',emoji:'📱',method:'Crédito',time:'10:00',installment:true,installmentNum:12,installmentTotal:12},
   {type:'despesa',desc:'Notebook (1/6)',cat:'Educação',val:283.33,date:'2026-05-15',emoji:'💻',method:'Crédito',time:'14:30',installment:true,installmentNum:1,installmentTotal:6},
   {type:'despesa',desc:'Notebook (2/6)',cat:'Educação',val:283.33,date:'2026-06-15',emoji:'💻',method:'Crédito',time:'14:30',installment:true,installmentNum:2,installmentTotal:6},
   {type:'despesa',desc:'Notebook (3/6)',cat:'Educação',val:283.33,date:'2026-07-15',emoji:'💻',method:'Crédito',time:'14:30',installment:true,installmentNum:3,installmentTotal:6},
+  {type:'despesa',desc:'Notebook (4/6)',cat:'Educação',val:283.33,date:'2026-08-15',emoji:'💻',method:'Crédito',time:'14:30',installment:true,installmentNum:4,installmentTotal:6},
+  {type:'despesa',desc:'Notebook (5/6)',cat:'Educação',val:283.33,date:'2026-09-15',emoji:'💻',method:'Crédito',time:'14:30',installment:true,installmentNum:5,installmentTotal:6},
+  {type:'despesa',desc:'Notebook (6/6)',cat:'Educação',val:283.33,date:'2026-10-15',emoji:'💻',method:'Crédito',time:'14:30',installment:true,installmentNum:6,installmentTotal:6},
   {type:'despesa',desc:'Uber',cat:'Transporte',val:32,date:'2026-06-27',emoji:'🚗',method:'PIX',time:'23:47'},
+  {type:'despesa',desc:'Almoço',cat:'Alimentação',val:45,date:'2026-06-29',emoji:'🍽️',method:'PIX',time:'12:30'},
+  {type:'despesa',desc:'Café',cat:'Alimentação',val:18,date:'2026-06-30',emoji:'☕',method:'Dinheiro',time:'09:15'},
+  {type:'despesa',desc:'Farmácia',cat:'Saúde',val:67,date:'2026-07-01',emoji:'💊',method:'Débito',time:'16:20'},
   {type:'despesa',desc:'Farmácia',cat:'Saúde',val:268,date:'2026-06-22',emoji:'💊',method:'Dinheiro',time:'11:15'},
   {type:'despesa',desc:'Farmácia',cat:'Saúde',val:89,date:'2026-06-15',emoji:'💊',method:'Débito',time:'16:40'},
   {type:'despesa',desc:'Farmácia',cat:'Saúde',val:134,date:'2026-06-08',emoji:'💊',method:'PIX',time:'09:22'},
@@ -729,10 +839,19 @@ function pinConfirm(){
   document.getElementById('profile-av').textContent=init;
   document.getElementById('profile-name').textContent=currentEmail.split('@')[0];
   pinValue='';updateDots();
+  // Salvar sessão com timestamp
+  localStorage.setItem('paia_email', currentEmail);
+  localStorage.setItem('paia_session', Date.now().toString());
   goTo('s-home');
   checkCompAlerts();
+  checkWeeklyFeedback();
 }
-function doLogout(){pinValue='';goTo('s-login')}
+function doLogout(){
+  pinValue='';
+  localStorage.removeItem('paia_email');
+  localStorage.removeItem('paia_session');
+  goTo('s-login');
+}
 
 // INSTALL
 function openInstall(type){
@@ -771,20 +890,127 @@ function calcTotals(list){
   return{inc,exp,bal:inc-exp};
 }
 function updateHome(){
-  const filtered=getFilteredTx();
-  const{inc,exp,bal}=calcTotals(filtered);
+  // Saldo, entradas e saídas sempre do mês atual completo
+  const now=new Date();
+  const startMonth=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;
+  const endMonth=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-31`;
+  const monthTx=txList.filter(t=>t.date>=startMonth&&t.date<=endMonth);
+  const{inc,exp,bal}=calcTotals(monthTx);
   document.getElementById('h-saldo').textContent=fmt(bal);
   document.getElementById('h-entrada').textContent=fmtS(inc);
   document.getElementById('h-saida').textContent=fmtS(exp);
-  const recent=[...filtered].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3);
+
+  // Gráfico e últimas transações respeitam o filtro de período
+  const filtered=getFilteredTx();
+  const recent=[...filtered].filter(t=>!t.installment).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3);
   document.getElementById('home-tx').innerHTML=recent.length?recent.map(txHtml).join(''):'<div style="text-align:center;color:var(--mu);padding:24px;font-size:14px">Nenhuma transação no período</div>';
   renderHomePies(filtered);
+  renderDailyBars();
+  initWeekPreview();
+}
+
+const DAY_NAMES=['dom','seg','ter','qua','qui','sex','sáb'];
+
+function renderDailyBars(){
+  const now=new Date();
+  const day=now.getDay(); // 0=dom,1=seg,...6=sab
+  const monday=new Date(now);
+  const diffToMonday=day===0?-6:1-day; // quantos dias até a segunda
+  monday.setDate(now.getDate()+diffToMonday);
+  monday.setHours(0,0,0,0);
+
+  const days=[];
+  for(let i=0;i<7;i++){
+    const d=new Date(monday);
+    d.setDate(monday.getDate()+i);
+    days.push(d);
+  }
+
+  // Range label
+  const start=days[0];const end=days[6];
+  document.getElementById('week-range-label').textContent=
+    `${start.getDate().toString().padStart(2,'0')}/${(start.getMonth()+1).toString().padStart(2,'0')} – ${end.getDate().toString().padStart(2,'0')}/${(end.getMonth()+1).toString().padStart(2,'0')}`;
+
+  // Totais por dia
+  const totals=days.map(d=>{
+    const ds=d.toISOString().split('T')[0];
+    return txList.filter(t=>t.type==='despesa'&&t.date===ds&&!t.installment).reduce((s,t)=>s+t.val,0);
+  });
+
+  const maxVal=Math.max(...totals,1);
+  const todayStr=now.toISOString().split('T')[0];
+
+  // Renderizar barras
+  const el=document.getElementById('daily-bars');
+  if(!el)return;
+  el.innerHTML=days.map((d,i)=>{
+    const ds=d.toISOString().split('T')[0];
+    const val=totals[i];
+    const pct=Math.round(val/maxVal*100);
+    const isToday=ds===todayStr;
+    const nameIdx=d.getDay();
+    return`<div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:${val>0?'pointer':'default'}" onclick="${val>0?`openDayDetail('${ds}')`:''}" >
+      <span style="font-size:10px;color:${isToday?'#6c63ff':'var(--mu)'}${isToday?';font-weight:600':''}">${DAY_NAMES[nameIdx]}</span>
+      <div style="width:100%;height:56px;background:#0d0d1a;border-radius:4px;display:flex;align-items:flex-end;overflow:hidden;${val>0?'box-shadow:0 0 0 1px #2e2a7a':''}">
+        <div style="width:100%;height:${pct||0}%;background:${isToday?'#6c63ff':'#4a4580'};border-radius:4px 4px 0 0;min-height:${val>0?'4px':'0'}"></div>
+      </div>
+      <span style="font-size:9px;color:${isToday?'#6c63ff':'var(--mu)'}${val>0?';font-weight:500':''}">${val>0?'R$'+Math.round(val):'—'}</span>
+    </div>`;
+  }).join('');
+
+  // Stats
+  const total=totals.reduce((s,v)=>s+v,0);
+  const maxIdx=totals.indexOf(Math.max(...totals));
+  const zeroDays=totals.filter(v=>v===0).length;
+  document.getElementById('week-total-val').textContent='R$ '+Math.round(total).toLocaleString('pt-BR');
+  document.getElementById('week-best-day').textContent=total>0?DAY_NAMES[days[maxIdx].getDay()]:'—';
+  document.getElementById('week-zero-days').textContent=zeroDays+' dia'+(zeroDays!==1?'s':'');
+}
+
+function openDayDetail(dateStr){
+  const parts=dateStr.split('-');
+  const label=`${parts[2]}/${parts[1]}/${parts[0]}`;
+  const dayTx=txList.filter(t=>t.date===dateStr&&!t.installment).sort((a,b)=>b.val-a.val);
+  const total=dayTx.reduce((s,t)=>s+t.val,0);
+  const d=new Date(dateStr+'T12:00:00');
+  const dayName=DAY_NAMES[d.getDay()];
+
+  document.getElementById('day-modal-title').textContent=`${dayName}, ${parts[2]}/${parts[1]}`;
+
+  const el=document.getElementById('day-modal-content');
+  if(!dayTx.length){
+    el.innerHTML='<div style="text-align:center;color:var(--mu);padding:32px;font-size:14px">Nenhum gasto registrado neste dia</div>';
+  } else {
+    el.innerHTML=`
+      <div style="background:var(--pd);border-radius:12px;padding:12px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:13px;color:var(--mu)">${dayTx.length} lançamento${dayTx.length!==1?'s':''}</span>
+        <span style="font-size:18px;font-weight:600;color:#ef4444">-${fmtS(total)}</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0">
+        ${dayTx.map(t=>{
+          const idx=txList.indexOf(t);
+          const methodBadge=t.method?`<span style="font-size:10px;padding:1px 6px;border-radius:8px;background:${METHOD_COLOR[t.method]||'#818cf8'}22;color:${METHOD_COLOR[t.method]||'#818cf8'}">${t.method}</span>`:'';
+          return`<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:0.5px solid var(--pb);cursor:pointer" onclick="document.getElementById('modal-day').classList.remove('open');setTimeout(()=>openTxDetail(${idx}),200)">
+            <div style="width:38px;height:38px;border-radius:10px;background:#1a1a2e;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${t.emoji||'💰'}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:14px;font-weight:500;color:var(--tx)">${t.desc}</div>
+              <div style="font-size:11px;color:var(--mu);margin-top:2px;display:flex;align-items:center;gap:6px">${t.cat}${methodBadge}${t.time?' · '+t.time:''}</div>
+            </div>
+            <div style="font-size:14px;font-weight:600;color:#ef4444;flex-shrink:0">-${fmtS(t.val)}</div>
+          </div>`;
+        }).join('')}
+      </div>`;
+  }
+  document.getElementById('modal-day').classList.add('open');
 }
 
 function renderHomePies(list){
   // Pizza por categoria
+  const now3=new Date();
+  const sm3=`${now3.getFullYear()}-${String(now3.getMonth()+1).padStart(2,'0')}-01`;
+  const em3=`${now3.getFullYear()}-${String(now3.getMonth()+1).padStart(2,'0')}-31`;
   const catTotals={};
-  list.filter(t=>t.type==='despesa').forEach(t=>{catTotals[t.cat]=(catTotals[t.cat]||0)+t.val;});
+  txList.filter(t=>t.type==='despesa'&&t.date>=sm3&&t.date<=em3).forEach(t=>{catTotals[t.cat]=(catTotals[t.cat]||0)+t.val;});
   const catLabels=Object.keys(catTotals);
   const catVals=catLabels.map(k=>catTotals[k]);
   if(catLabels.length>0)renderPie('home-pie','home-pie-legend',catLabels,catVals,PIE_COLORS);
@@ -803,6 +1029,7 @@ function renderHomePies(list){
 const METHOD_ICON={'Débito':'💳','Crédito':'💳','PIX':'⚡','Dinheiro':'💵'};
 const METHOD_COLOR={'Débito':'#3b82f6','Crédito':'#6c63ff','PIX':'#22c55e','Dinheiro':'#f59e0b'};
 function openTxDetail(idx){
+  currentTxDetailIdx=idx;
   const t=txList[idx];
   if(!t)return;
   const signal=t.type==='receita'?'+':'-';
@@ -822,7 +1049,7 @@ function txHtml(t,idx){
   const methodBadge=t.method?`<span style="font-size:10px;padding:2px 7px;border-radius:10px;background:${METHOD_COLOR[t.method]||'#818cf8'}22;color:${METHOD_COLOR[t.method]||'#818cf8'};margin-left:4px;font-weight:500">${t.method}</span>`:'';;
   const i=idx!==undefined?idx:txList.indexOf(t);
   const paidBadge=t.pago?'<span style="font-size:10px;padding:2px 6px;border-radius:8px;background:rgba(34,197,94,.15);color:#22c55e;margin-left:4px">✓ Pago</span>':'';
-  const parcelaBadge=t.installment&&!t.pago?`<span style="font-size:10px;padding:2px 6px;border-radius:8px;background:rgba(108,99,255,.15);color:#818cf8;margin-left:4px;cursor:pointer" onclick="event.stopPropagation();openPagar(${i})">Pagar</span>`:'';
+  const parcelaBadge=t.installment&&!t.pago?`<span style="font-size:10px;padding:2px 6px;border-radius:8px;background:rgba(239,68,68,.15);color:#ef4444;margin-left:4px;cursor:pointer;font-weight:600" onclick="event.stopPropagation();openPagar(${i})">A pagar</span>`:'';
   return`<div class="tx" onclick="openTxDetail(${i})" style="${t.pago?'opacity:.6':''}"><div class="tx-icon" style="background:${t.type==='receita'?'#13113a':'#1a1a2e'}">${t.emoji||'💰'}</div><div class="tx-info"><div class="tx-name">${t.desc}</div><div class="tx-cat" style="display:flex;align-items:center;flex-wrap:wrap;gap:2px">${t.cat}${methodBadge}${paidBadge}${parcelaBadge}</div></div><div class="tx-amt ${t.type==='receita'?'gn':'rd'}">${t.type==='receita'?'+':'-'}${fmtS(t.val)}</div></div>`;
 }
 
@@ -843,20 +1070,100 @@ function renderTxFull(){
   const el=document.getElementById('tx-full');
   if(!el)return;
 
-  // Sempre agrupa por dia, dias mais recentes primeiro
-  const groups={};
-  list.forEach(t=>{if(!groups[t.date])groups[t.date]=[];groups[t.date].push(t);});
-  const dates=Object.keys(groups).sort((a,b)=>b.localeCompare(a));
-  // Dentro de cada dia ordena por valor conforme selecionado
-  dates.forEach(d=>groups[d].sort((a,b)=>txSort==='asc'?a.val-b.val:b.val-a.val));
+  // Separar parceladas de normais
+  const parceladas={};
+  const normais=[];
 
-  let html='';
-  dates.forEach(d=>{
-    html+=`<div class="tx-date-lbl">${fmtD(d)}</div>`;
-    groups[d].forEach(t=>{html+=txHtml(t,txList.indexOf(t));});
+  list.forEach(t=>{
+    if(t.installment){
+      const base=t.desc.replace(/\s*\(\d+\/\d+\)$/,'');
+      if(!parceladas[base])parceladas[base]=[];
+      parceladas[base].push(t);
+    } else {
+      normais.push(t);
+    }
   });
 
+  // Montar HTML dos grupos de parcelas
+  let html='';
+
+  // Cards agrupados de parceladas
+  Object.keys(parceladas).forEach(base=>{
+    const parcelas=parceladas[base].sort((a,b)=>a.date.localeCompare(b.date));
+    const total=parcelas[0].installmentTotal;
+    const pagas=parcelas.filter(p=>p.pago).length;
+    const pendentes=parcelas.filter(p=>!p.pago);
+    const valParcela=parcelas[0].val;
+    const emoji=parcelas[0].emoji||'💰';
+    const method=parcelas[0].method||'';
+    const cartao=parcelas[0].cartao||'';
+    const totalVal=valParcela*total;
+    const pct=Math.round(pagas/total*100);
+    const uid=base.replace(/\s+/g,'_');
+
+    html+=`
+    <div style="background:var(--pm);border-radius:14px;overflow:hidden;margin-bottom:0">
+      <div style="padding:12px 14px;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="toggleGroup('${uid}')">
+        <div class="tx-icon" style="background:#1a1a2e;flex-shrink:0">${emoji}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:14px;font-weight:500;color:var(--tx)">${base}</div>
+          <div style="font-size:11px;color:var(--mu);margin-top:2px;display:flex;align-items:center;gap:6px">
+            ${total}x ${fmtS(valParcela)}
+            ${cartao?`<span style="font-size:10px;padding:1px 6px;border-radius:8px;background:rgba(108,99,255,.15);color:#818cf8">${cartao}</span>`:''}
+          </div>
+          <div style="margin-top:6px">
+            <div style="height:4px;background:#2e2a7a;border-radius:2px;overflow:hidden">
+              <div style="width:${pct}%;height:100%;border-radius:2px;background:${pct===100?'#22c55e':'#6c63ff'}"></div>
+            </div>
+            <div style="font-size:10px;color:var(--mu);margin-top:3px">${pagas}/${total} pagas · ${fmtS(valParcela*(total-pagas))} restante</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">
+          <span style="font-size:14px;font-weight:600;color:#ef4444">-${fmtS(totalVal)}</span>
+          <i class="ti ti-chevron-down" id="chevron-${uid}" style="font-size:14px;color:var(--mu);transition:transform .2s"></i>
+        </div>
+      </div>
+      <div id="group-${uid}" style="display:none;border-top:0.5px solid var(--pb)">
+        ${parcelas.map(p=>{
+          const idx=txList.indexOf(p);
+          const num=p.desc.match(/\((\d+)\/\d+\)/)?.[1]||'';
+          return`<div style="padding:10px 14px 10px 66px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid var(--pb)">
+            <div>
+              <div style="font-size:13px;color:${p.pago?'var(--mu)':'var(--tx)'};${p.pago?'text-decoration:line-through':''}">Parcela ${num}/${total}</div>
+              <div style="font-size:11px;color:var(--mu);margin-top:1px">${p.date.split('-').reverse().join('/')}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:13px;font-weight:500;color:${p.pago?'#22c55e':'#ef4444'}">${p.pago?'✓ Pago':'-'+fmtS(p.val)}</span>
+              ${!p.pago?`<span style="font-size:10px;padding:2px 8px;border-radius:8px;background:rgba(239,68,68,.15);color:#ef4444;font-weight:600;cursor:pointer" onclick="openPagar(${idx})">A pagar</span>`:''}
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  });
+
+  // Transações normais agrupadas por data
+  if(normais.length>0){
+    const groups={};
+    normais.forEach(t=>{if(!groups[t.date])groups[t.date]=[];groups[t.date].push(t);});
+    const dates=Object.keys(groups).sort((a,b)=>b.localeCompare(a));
+    dates.forEach(d=>groups[d].sort((a,b)=>txSort==='asc'?a.val-b.val:b.val-a.val));
+    dates.forEach(d=>{
+      html+=`<div class="tx-date-lbl">${fmtD(d)}</div>`;
+      groups[d].forEach(t=>{html+=txHtml(t,txList.indexOf(t));});
+    });
+  }
+
   el.innerHTML=html||'<div style="text-align:center;color:var(--mu);padding:40px;font-size:14px">Nenhuma transação</div>';
+}
+
+function toggleGroup(uid){
+  const el=document.getElementById('group-'+uid);
+  const ch=document.getElementById('chevron-'+uid);
+  if(!el)return;
+  const open=el.style.display==='block';
+  el.style.display=open?'none':'block';
+  if(ch)ch.style.transform=open?'':'rotate(180deg)';
 }
 
 
@@ -865,6 +1172,9 @@ function openTxModal(){
   document.getElementById('m-method').value='Débito';
   document.getElementById('parcelas-wrap').style.display='none';
   document.getElementById('parcela-preview').style.display='none';
+  // Popular categorias
+  const catSel=document.getElementById('m-cat');
+  if(catSel){catSel.innerHTML=CATS.map(c=>`<option value="${c.name}">${c.emoji} ${c.name}</option>`).join('');}
   // Popular cartões
   const sel=document.getElementById('m-cartao');
   sel.innerHTML='<option value="">Selecione o cartão</option>'+cartoes.map(c=>`<option value="${c.id}">${c.nome} (vence dia ${c.vencimento})</option>`).join('');
@@ -917,20 +1227,24 @@ function renderPie(canvasId,legendId,labels,values,colors){
 }
 
 function renderCats(){
-  const{inc,exp}=calcTotals();
+  const now=new Date();
+  const startMonth=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;
+  const endMonth=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-31`;
+  const monthTx=txList.filter(t=>t.date>=startMonth&&t.date<=endMonth);
+  const{inc,exp}=calcTotals(monthTx);
   document.getElementById('cat-total').textContent=fmtS(exp);
   document.getElementById('cat-pct').textContent=inc>0?Math.round(exp/inc*100)+'%':'0%';
 
   const catData=CATS.map((c,i)=>({
     ...c,
-    spent:txList.filter(t=>t.type==='despesa'&&t.cat===c.name).reduce((s,t)=>s+t.val,0),
+    spent:monthTx.filter(t=>t.type==='despesa'&&t.cat===c.name).reduce((s,t)=>s+t.val,0),
     color:PIE_COLORS[i]||'#818cf8'
   })).filter(c=>c.spent>0);
 
   if(catData.length>0)renderPie('cat-pie','cat-pie-legend',catData.map(c=>c.name),catData.map(c=>c.spent),catData.map(c=>c.color));
 
   document.getElementById('cat-grid').innerHTML=CATS.map((c,i)=>{
-    const spent=txList.filter(t=>t.type==='despesa'&&t.cat===c.name).reduce((s,t)=>s+t.val,0);
+    const spent=monthTx.filter(t=>t.type==='despesa'&&t.cat===c.name).reduce((s,t)=>s+t.val,0);
     const pct=Math.min(100,Math.round(spent/c.limit*100));
     const color=pct>85?'#ef4444':PIE_COLORS[i]||c.color;
     return`<div class="cat-row" onclick="openCatDetail('${c.name}')">
@@ -938,7 +1252,12 @@ function renderCats(){
       <div class="cat-row-info">
         <div class="cat-row-top"><span class="cat-row-name">${c.name}</span><span class="cat-row-val" style="color:${pct>85?'#ef4444':'var(--tx)'}">${fmtS(spent)}</span></div>
         <div class="cat-row-bar"><div class="cat-row-fill" style="width:${pct}%;background:${color}"></div></div>
-        <div class="cat-row-sub"><span class="cat-row-limit">limite ${fmtS(c.limit)}</span><span class="cat-row-pct" style="${pct>85?'color:#f87171':''}">${pct}%</span></div>
+        <div class="cat-row-sub">
+          <span class="cat-row-limit" onclick="event.stopPropagation();editLimit('${c.name}')" style="cursor:pointer;display:flex;align-items:center;gap:4px">
+            limite ${fmtS(c.limit)} <i class="ti ti-pencil" style="font-size:11px;color:var(--p)"></i>
+          </span>
+          <span class="cat-row-pct" style="${pct>85?'color:#f87171':''}">${pct}%</span>
+        </div>
       </div>
     </div>`;
   }).join('');
@@ -950,17 +1269,92 @@ function filterAgenda(f,el){agFilter=f;document.querySelectorAll('#s-agenda .pil
 function renderAgenda(){
   const tod=today();
   const in7days=new Date();in7days.setDate(in7days.getDate()+7);const in7str=in7days.toISOString().split('T')[0];
-  let list=agFilter==='rec'?compList.filter(c=>c.rec):agFilter==='upcoming'?compList.filter(c=>c.date>=tod&&c.date<=in7str):compList;
-  list=[...list].sort((a,b)=>a.date.localeCompare(b.date));
-  document.getElementById('agenda-list').innerHTML=list.length?list.map(c=>{
+
+  // Agrupar parcelas da agenda
+  const parcelaGroups={};
+  const outrosComp=[];
+  compList.forEach(c=>{
+    if(c.tipo==='parcela'){
+      const base=c.desc.replace(/\s*\(\d+\/\d+\)$/,'');
+      if(!parcelaGroups[base])parcelaGroups[base]=[];
+      parcelaGroups[base].push(c);
+    } else {
+      outrosComp.push(c);
+    }
+  });
+
+  let html='';
+
+  // Cards agrupados de parcelas na agenda
+  Object.keys(parcelaGroups).forEach(base=>{
+    const itens=parcelaGroups[base].sort((a,b)=>a.date.localeCompare(b.date));
+    const total=itens.length;
+    // Contar pagas correspondentes no txList
+    const txPagas=txList.filter(t=>t.installment&&t.desc.replace(/\s*\(\d+\/\d+\)$/,'')===base&&t.pago).length;
+    const proxima=itens[0];
+    const d=new Date(proxima.date+'T12:00:00');
+    const diff=Math.ceil((d-new Date())/(1000*60*60*24));
+    const cartao=proxima.cartao||'';
+    const uid='ag_'+base.replace(/\s+/g,'_');
+
+    if(agFilter==='upcoming'&&(proxima.date<tod||proxima.date>in7str))return;
+    if(agFilter==='rec')return;
+
+    html+=`
+    <div style="background:var(--pm);border-radius:14px;overflow:hidden">
+      <div style="padding:12px 14px;display:flex;align-items:flex-start;gap:12px;cursor:pointer" onclick="toggleGroup('${uid}')">
+        <div class="comp-date" style="flex-shrink:0">
+          <div class="cd-day">${proxima.date.split('-')[2]}</div>
+          <div class="cd-mon">${['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][parseInt(proxima.date.split('-')[1])-1]}</div>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:14px;font-weight:500;color:var(--tx)">${base}</div>
+          <div style="font-size:11px;color:var(--mu);margin-top:2px">
+            Próximo vencimento: dia ${proxima.date.split('-')[2]}
+            ${cartao?` · ${cartao}`:''}
+          </div>
+          <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+            ${diff<=3&&diff>=0?`<span class="comp-badge badge-soon">${diff===0?'Hoje':diff===1?'Amanhã':'Em '+diff+' dias'}</span>`:''}
+            <span class="comp-badge" style="background:rgba(239,68,68,.15);color:#ef4444">Parcela</span>
+            ${cartao?`<span class="comp-badge" style="background:rgba(108,99,255,.15);color:#818cf8">${cartao}</span>`:''}
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">
+          <button onclick="event.stopPropagation();delComp(${proxima.id})" style="background:none;border:none;color:var(--mu);cursor:pointer;font-size:16px"><i class="ti ti-trash"></i></button>
+          <i class="ti ti-chevron-down" id="chevron-${uid}" style="font-size:14px;color:var(--mu);transition:transform .2s"></i>
+        </div>
+      </div>
+      <div id="group-${uid}" style="display:none;border-top:0.5px solid var(--pb)">
+        ${itens.map((item,i)=>{
+          const txPago=txList.find(t=>t.installment&&t.desc===item.desc&&t.pago);
+          const num=item.desc.match(/\((\d+)\/\d+\)/)?.[1]||i+1;
+          const totalNum=item.desc.match(/\d+\/(\d+)\)/)?.[1]||total;
+          return`<div style="padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid var(--pb)">
+            <div>
+              <div style="font-size:13px;color:${txPago?'var(--mu)':'var(--tx)'};${txPago?'text-decoration:line-through':''}">Parcela ${num}/${totalNum}</div>
+              <div style="font-size:11px;color:var(--mu);margin-top:1px">${item.date.split('-').reverse().join('/')}</div>
+            </div>
+            <span style="font-size:13px;font-weight:500;color:${txPago?'#22c55e':'#ef4444'}">${txPago?'✓ Pago':'Pendente'}</span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  });
+
+  // Eventos normais
+  let listNormal=agFilter==='rec'?outrosComp.filter(c=>c.rec):agFilter==='upcoming'?outrosComp.filter(c=>c.date>=tod&&c.date<=in7str):outrosComp;
+  listNormal=[...listNormal].sort((a,b)=>a.date.localeCompare(b.date));
+
+  listNormal.forEach(c=>{
     const d=new Date(c.date+'T12:00:00');
     const diff=Math.ceil((d-new Date())/(1000*60*60*24));
     const badge=diff<=0?'':'<span class="comp-badge '+(diff<=3?'badge-soon':'badge-ok')+'">'+(diff<=0?'Hoje':diff===1?'Amanhã':diff<=3?`Em ${diff} dias`:`${fmtD(c.date)}`)+'</span>';
     const recBadge=c.rec?`<span class="comp-badge badge-rec">${c.freq==='daily'?'Diário':c.freq==='weekly'?'Semanal':'Mensal'}</span>`:'';
     const cartaoBadge=c.cartao?`<span class="comp-badge" style="background:rgba(108,99,255,.15);color:#818cf8">${c.cartao}</span>`:'';
     const tipoBadge=c.tipo==='parcela'?'<span class="comp-badge" style="background:rgba(239,68,68,.15);color:#ef4444">Parcela</span>':'';
-    return`<div class="comp-card"><div class="comp-date"><div class="cd-day">${c.date.split('-')[2]}</div><div class="cd-mon">${['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][parseInt(c.date.split('-')[1])-1]}</div></div><div class="comp-info"><div class="comp-title">${c.desc}</div><div class="comp-time"><i class="ti ti-clock" style="font-size:12px"></i>${c.start||''}${c.end?' – '+c.end:''}</div>${badge}${recBadge}${tipoBadge}${cartaoBadge}</div><button class="comp-del" onclick="delComp(${c.id})"><i class="ti ti-trash"></i></button></div>`;
-  }).join(''):'<div style="text-align:center;color:var(--mu);padding:40px;font-size:14px">Nenhum compromisso</div>';
+    html+=`<div class="comp-card"><div class="comp-date"><div class="cd-day">${c.date.split('-')[2]}</div><div class="cd-mon">${['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][parseInt(c.date.split('-')[1])-1]}</div></div><div class="comp-info"><div class="comp-title">${c.desc}</div><div class="comp-time"><i class="ti ti-clock" style="font-size:12px"></i>${c.start||''}${c.end?' – '+c.end:''}</div>${badge}${recBadge}${tipoBadge}${cartaoBadge}</div><button class="comp-del" onclick="delComp(${c.id})"><i class="ti ti-trash"></i></button></div>`;
+  });
+  document.getElementById('agenda-list').innerHTML=html||'<div style="text-align:center;color:var(--mu);padding:40px;font-size:14px">Nenhum compromisso</div>';
 }
 function delComp(id){compList=compList.filter(c=>c.id!==id);renderAgenda();}
 
@@ -1085,7 +1479,10 @@ function applyRange(){
 }
 
 function openCatDetail(catName){
-  const items=txList.filter(t=>t.type==='despesa'&&t.cat===catName).sort((a,b)=>b.date.localeCompare(a.date));
+  const now2=new Date();
+  const sm=`${now2.getFullYear()}-${String(now2.getMonth()+1).padStart(2,'0')}-01`;
+  const em=`${now2.getFullYear()}-${String(now2.getMonth()+1).padStart(2,'0')}-31`;
+  const items=txList.filter(t=>t.type==='despesa'&&t.cat===catName&&t.date>=sm&&t.date<=em).sort((a,b)=>b.date.localeCompare(a.date));
   const total=items.reduce((s,t)=>s+t.val,0);
   const cat=CATS.find(c=>c.name===catName)||{emoji:'💰',color:'#6c63ff',limit:400};
   const pct=cat.limit>0?Math.min(100,Math.round(total/cat.limit*100)):0;
@@ -1257,6 +1654,271 @@ function criarEventosParcelas(desc,val,date,parcelas,cartaoNome,vencDia){
   }
 }
 
+// FOTO DE PERFIL
+function triggerPhotoUpload(){
+  document.getElementById('photo-input').click();
+}
+function handlePhotoUpload(input){
+  const file=input.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const src=e.target.result;
+    localStorage.setItem('paia_photo',src);
+    applyPhoto(src);
+    showToast('✅ Foto de perfil atualizada!');
+  };
+  reader.readAsDataURL(file);
+}
+function applyPhoto(src){
+  document.querySelectorAll('.avatar').forEach(av=>{
+    av.innerHTML=`<img src="${src}" alt="foto">`;
+  });
+  // Também atualizar o avatar grande no perfil
+  const pav=document.getElementById('profile-av');
+  if(pav)pav.innerHTML=`<img src="${src}" alt="foto" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+}
+
+// VERIFICAR DOMINGO — mostrar resumo semanal
+function checkWeeklyFeedback(){
+  const now=new Date();
+  const isSunday=now.getDay()===0;
+  // Verificar se já mostrou hoje
+  const lastShown=localStorage.getItem('paia_week_shown');
+  const today=now.toISOString().split('T')[0];
+  if(!isSunday||lastShown===today)return;
+  // Marcar como mostrado hoje
+  localStorage.setItem('paia_week_shown',today);
+  // Mostrar toast e abrir modal após 2 segundos
+  setTimeout(()=>{
+    showToast('📊 Resumo da semana disponível! Toque para ver.');
+    // Destacar o card
+    const card=document.getElementById('week-summary-card');
+    if(card){
+      card.style.border='1px solid var(--p)';
+      card.style.boxShadow='0 0 12px rgba(108,99,255,.3)';
+    }
+    // Abrir modal automaticamente após mais 2 segundos
+    setTimeout(()=>openWeekSummary(), 2500);
+  },2000);
+}
+
+// RESUMO SEMANAL
+function getWeekRange(){
+  const now=new Date();
+  const day=now.getDay(); // 0=dom
+  const monday=new Date(now);
+  monday.setDate(now.getDate()-(day===0?6:day-1));
+  const sunday=new Date(monday);
+  sunday.setDate(monday.getDate()+6);
+  return{
+    start:monday.toISOString().split('T')[0],
+    end:sunday.toISOString().split('T')[0],
+    label:`${monday.getDate().toString().padStart(2,'0')}/${(monday.getMonth()+1).toString().padStart(2,'0')} – ${sunday.getDate().toString().padStart(2,'0')}/${(sunday.getMonth()+1).toString().padStart(2,'0')}`
+  };
+}
+
+function initWeekPreview(){
+  const{start,end,label}=getWeekRange();
+  document.getElementById('week-date-range').textContent=label;
+  const weekTx=txList.filter(t=>t.date>=start&&t.date<=end&&!t.installment);
+  const inc=weekTx.filter(t=>t.type==='receita').reduce((s,t)=>s+t.val,0);
+  const exp=weekTx.filter(t=>t.type==='despesa').reduce((s,t)=>s+t.val,0);
+  const bal=inc-exp;
+  const lazerPrev=weekTx.filter(t=>!CATS_ESSENCIAL.includes(t.cat)).reduce((s,t)=>s+t.val,0);
+  const pctLazerPrev=exp>0?Math.round(lazerPrev/exp*100):0;
+  const emoji=weekTx.length===0?'🤔':pctLazerPrev>60?'🎮':pctLazerPrev>40?'⚖️':'✅';
+  document.getElementById('week-emoji').textContent=emoji;
+  document.getElementById('week-title').textContent=weekTx.length===0?'Nenhum gasto registrado':`${fmtS(exp)} gastos esta semana`;
+  document.getElementById('week-subtitle').textContent=weekTx.length===0?'Toque para ver o resumo':`${pctLazerPrev}% em extras · ${weekTx.length} lançamento${weekTx.length!==1?'s':''}`;
+}
+
+function openWeekSummary(){
+  document.getElementById('modal-week').classList.add('open');
+  renderWeekSummary();
+}
+
+// Categorias consideradas essenciais vs lazer
+const CATS_ESSENCIAL=['Moradia','Alimentação','Saúde','Transporte','Educação'];
+const CATS_LAZER=['Lazer','Entretenimento','Restaurante','Delivery','Roupas','Assinaturas'];
+
+function renderWeekSummary(){
+  const{start,end}=getWeekRange();
+  const weekTx=txList.filter(t=>t.date>=start&&t.date<=end&&!t.installment&&t.type==='despesa');
+  const exp=weekTx.reduce((s,t)=>s+t.val,0);
+
+  // Categorias
+  const catTotals={};
+  weekTx.forEach(t=>{catTotals[t.cat]=(catTotals[t.cat]||0)+t.val;});
+  const topCats=Object.entries(catTotals).sort((a,b)=>b[1]-a[1]).slice(0,4);
+
+  // Separar essencial vs lazer/supérfluo
+  const essencial=weekTx.filter(t=>CATS_ESSENCIAL.includes(t.cat)).reduce((s,t)=>s+t.val,0);
+  const lazer=weekTx.filter(t=>!CATS_ESSENCIAL.includes(t.cat)).reduce((s,t)=>s+t.val,0);
+  const pctLazer=exp>0?Math.round(lazer/exp*100):0;
+
+  // Maior gasto
+  const maiorGasto=[...weekTx].sort((a,b)=>b.val-a.val)[0];
+  const gastosMaiores=weekTx.filter(t=>t.val>200);
+
+  // Dias com gastos
+  const diasComGasto=new Set(weekTx.map(t=>t.date)).size;
+
+  // Gerar feedback inteligente focado em comportamento
+  let feedEmoji='', feedback='', dica='';
+
+  if(weekTx.length===0){
+    feedEmoji='🤔';
+    feedback='Nenhum gasto registrado essa semana. Ou foi uma semana incrível de economia, ou você esqueceu de lançar. Confere lá!';
+    dica='Tente registrar tudo durante a semana — até o cafezinho conta no final do mês.';
+  } else if(pctLazer>60){
+    feedEmoji='🎮';
+    feedback=`Essa semana foi mais prazer do que necessidade. ${pctLazer}% dos seus gastos foram em coisas não essenciais — ${fmtS(lazer)} em lazer contra ${fmtS(essencial)} em necessidades.`;
+    dica=`Não é proibido se divertir, mas vale refletir: dá pra cortar algum gasto de lazer semana que vem sem perder a qualidade de vida?`;
+  } else if(pctLazer>40){
+    feedEmoji='⚖️';
+    feedback=`Semana equilibrada entre o necessário e o prazeroso. ${fmtS(essencial)} em gastos essenciais e ${fmtS(lazer)} em lazer/extras. Proporção razoável.`;
+    dica=`O ponto de atenção é ${maiorGasto?'"'+maiorGasto.desc+'" ('+fmtS(maiorGasto.val)+')'  :'seu maior gasto'}. Esse tipo de gasto se repete toda semana?`;
+  } else if(gastosMaiores.length>0){
+    feedEmoji='💡';
+    feedback=`Essa semana teve ${gastosMaiores.length} gasto${gastosMaiores.length>1?'s':''} acima de R$ 200: ${gastosMaiores.map(t=>t.desc+' ('+fmtS(t.val)+')').join(', ')}. São gastos planejados?`;
+    dica='Gastos grandes não planejados são os que mais desequilibram o orçamento. Vale revisar se eram realmente necessários agora.';
+  } else if(diasComGasto>=5){
+    feedEmoji='📅';
+    feedback=`Você gastou em ${diasComGasto} dos 7 dias da semana. Total de ${fmtS(exp)} em ${weekTx.length} lançamentos. A frequência alta pode indicar gastos por impulso.`;
+    dica='Tente agrupar compras — ir ao mercado 1x por semana, por exemplo, costuma reduzir o gasto total por impulso.';
+  } else {
+    feedEmoji='✅';
+    feedback=`Semana controlada! ${fmtS(exp)} gastos em ${weekTx.length} lançamento${weekTx.length!==1?'s':''}, concentrados em ${diasComGasto} dia${diasComGasto!==1?'s':''}. Maioria em gastos essenciais.`;
+    dica=`Continue assim. Se quiser reduzir ainda mais, o foco seria em ${topCats[0]?topCats[0][0]:'lazer'} — seu maior gasto da semana.`;
+  }
+
+  const el=document.getElementById('week-modal-content');
+  el.innerHTML=`
+    <div style="background:var(--pd);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center">
+      <div style="font-size:44px;margin-bottom:10px">${feedEmoji}</div>
+      <div style="font-size:14px;color:var(--tx);line-height:1.6">${feedback}</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+      <div style="background:var(--pd);border-radius:12px;padding:12px;text-align:center">
+        <div style="font-size:10px;color:#818cf8;margin-bottom:4px">Essencial</div>
+        <div style="font-size:17px;font-weight:600;color:var(--tx)">${fmtS(essencial)}</div>
+        <div style="font-size:10px;color:var(--mu);margin-top:2px">${exp>0?Math.round(essencial/exp*100):0}% do total</div>
+      </div>
+      <div style="background:var(--pd);border-radius:12px;padding:12px;text-align:center">
+        <div style="font-size:10px;color:#f87171;margin-bottom:4px">Extras/Lazer</div>
+        <div style="font-size:17px;font-weight:600;color:var(--tx)">${fmtS(lazer)}</div>
+        <div style="font-size:10px;color:var(--mu);margin-top:2px">${pctLazer}% do total</div>
+      </div>
+    </div>
+
+    ${topCats.length>0?`
+    <div style="background:var(--pd);border-radius:14px;padding:14px;margin-bottom:14px">
+      <div style="font-size:12px;color:var(--mu);margin-bottom:10px;font-weight:500;text-transform:uppercase;letter-spacing:.04em">Para onde foi o dinheiro</div>
+      ${topCats.map(([cat,val],i)=>{
+        const c=CATS.find(x=>x.name===cat);
+        const pctCat=exp>0?Math.round(val/exp*100):0;
+        const isEssencial=CATS_ESSENCIAL.includes(cat);
+        return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:${i<topCats.length-1?'10px':'0'}">
+          <span style="font-size:18px">${c?.emoji||'💰'}</span>
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+              <div>
+                <span style="font-size:13px;color:var(--tx)">${cat}</span>
+                <span style="font-size:10px;padding:1px 6px;border-radius:8px;margin-left:6px;background:${isEssencial?'rgba(34,197,94,.15)':'rgba(239,68,68,.15)'};color:${isEssencial?'#22c55e':'#ef4444'}">${isEssencial?'essencial':'extra'}</span>
+              </div>
+              <span style="font-size:13px;font-weight:500;color:var(--tx)">${fmtS(val)}</span>
+            </div>
+            <div style="height:4px;background:#2e2a7a;border-radius:2px;overflow:hidden">
+              <div style="width:${pctCat}%;height:100%;background:${PIE_COLORS[i]||'#6c63ff'};border-radius:2px"></div>
+            </div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`:''}
+
+    <div style="background:var(--pd);border-radius:14px;padding:14px;display:flex;align-items:flex-start;gap:12px">
+      <span style="font-size:22px;flex-shrink:0">💡</span>
+      <div>
+        <div style="font-size:12px;color:var(--mu);margin-bottom:4px;font-weight:500;text-transform:uppercase;letter-spacing:.04em">Dica da semana</div>
+        <div style="font-size:13px;color:var(--tx);line-height:1.6">${dica}</div>
+      </div>
+    </div>
+  `;
+}
+
+// NOVA CATEGORIA
+function openNewCat(){
+  document.getElementById('nc-nome').value='';
+  document.getElementById('nc-emoji').value='';
+  document.getElementById('nc-limit').value='';
+  document.getElementById('modal-new-cat').classList.add('open');
+}
+function saveNewCat(){
+  const nome=document.getElementById('nc-nome').value.trim();
+  const emoji=document.getElementById('nc-emoji').value.trim()||'📦';
+  const limit=parseFloat(document.getElementById('nc-limit').value)||300;
+  if(!nome)return alert('Digite o nome da categoria!');
+  if(CATS.find(c=>c.name.toLowerCase()===nome.toLowerCase()))return alert('Essa categoria já existe!');
+  CATS.push({name:nome,emoji,color:PIE_COLORS[CATS.length%PIE_COLORS.length],limit});
+  document.getElementById('modal-new-cat').classList.remove('open');
+  showToast(`✅ Categoria "${nome}" criada!`);
+  renderCats();
+}
+
+// EDITAR TRANSAÇÃO
+let editingTxIdx=null;
+let currentTxDetailIdx=null;
+function openEditTx(idx){
+  editingTxIdx=idx;
+  const t=txList[idx];
+  document.getElementById('et-desc').value=t.desc;
+  document.getElementById('et-method').value=t.method||'Débito';
+  // Popular categorias
+  const sel=document.getElementById('et-cat');
+  sel.innerHTML=CATS.map(c=>`<option value="${c.name}" ${c.name===t.cat?'selected':''}>${c.emoji} ${c.name}</option>`).join('');
+  document.getElementById('modal-tx-detail').classList.remove('open');
+  document.getElementById('modal-edit-tx').classList.add('open');
+}
+function saveEditTx(){
+  if(editingTxIdx===null)return;
+  const t=txList[editingTxIdx];
+  t.desc=document.getElementById('et-desc').value.trim()||t.desc;
+  t.cat=document.getElementById('et-cat').value;
+  t.method=document.getElementById('et-method').value;
+  t.emoji=CATS.find(c=>c.name===t.cat)?.emoji||t.emoji||'💰';
+  document.getElementById('modal-edit-tx').classList.remove('open');
+  showToast('✅ Lançamento atualizado!');
+  renderTxFull();
+  updateHome();
+  editingTxIdx=null;
+}
+
+let editingCat=null;
+function editLimit(catName){
+  editingCat=catName;
+  const cat=CATS.find(c=>c.name===catName);
+  document.getElementById('limit-title').textContent=`Limite — ${catName}`;
+  document.getElementById('limit-input').value=cat?cat.limit:'';
+  document.getElementById('modal-limit').classList.add('open');
+}
+function saveLimit(){
+  const val=parseFloat(document.getElementById('limit-input').value);
+  if(!val||val<=0)return alert('Digite um valor válido!');
+  const cat=CATS.find(c=>c.name===editingCat);
+  if(cat){
+    cat.limit=val;
+    // Salvar no localStorage
+    const limits={};
+    CATS.forEach(c=>limits[c.name]=c.limit);
+    localStorage.setItem('paia_limits',JSON.stringify(limits));
+  }
+  document.getElementById('modal-limit').classList.remove('open');
+  showToast(`✅ Limite de ${editingCat} atualizado para ${fmtS(val)}`);
+  renderCats();
+}
+
 function goTo(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   const screen=document.getElementById(id);
@@ -1270,7 +1932,49 @@ function goTo(id){
   });
 }
 
+// Carregar foto de perfil salva
+(function loadPhoto(){
+  const src=localStorage.getItem('paia_photo');
+  if(src)setTimeout(()=>applyPhoto(src),50);
+})();
+
+// Carregar limites personalizados
+(function loadLimits(){
+  const saved=localStorage.getItem('paia_limits');
+  if(!saved)return;
+  try{
+    const limits=JSON.parse(saved);
+    CATS.forEach(c=>{if(limits[c.name])c.limit=limits[c.name];});
+  }catch(e){}
+})();
+
+// Verificar sessão salva ao carregar
+(function checkSession(){
+  const email=localStorage.getItem('paia_email');
+  const session=localStorage.getItem('paia_session');
+  if(!email||!session)return;
+  // Expirar após 7 dias sem uso (604800000ms)
+  const EXPIRE=7*24*60*60*1000;
+  if(Date.now()-parseInt(session)>EXPIRE){
+    localStorage.removeItem('paia_email');
+    localStorage.removeItem('paia_session');
+    return;
+  }
+  // Renovar timestamp a cada acesso
+  localStorage.setItem('paia_session', Date.now().toString());
+  currentEmail=email;
+  const init=email.substring(0,2).toUpperCase();
+  document.getElementById('user-av').textContent=init;
+  document.getElementById('profile-av').textContent=init;
+  document.getElementById('profile-name').textContent=email.split('@')[0];
+  goTo('s-home');
+  checkCompAlerts();
+  checkWeeklyFeedback();
+  checkWeeklyFeedback();
+})();
+
 updateHome();
 </script>
+<div class="toast" id="toast"><i class="ti ti-bell"></i><span id="toast-msg"></span></div>
 </body>
 </html>
