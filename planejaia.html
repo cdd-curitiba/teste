@@ -1092,11 +1092,9 @@ function openDayDetail(dateStr){
 
 function renderHomePies(list){
   // Pizza por categoria
-  const now3=new Date();
-  const sm3=`${now3.getFullYear()}-${String(now3.getMonth()+1).padStart(2,'0')}-01`;
-  const em3=`${now3.getFullYear()}-${String(now3.getMonth()+1).padStart(2,'0')}-31`;
+  // Usar lista filtrada pelo período selecionado
   const catTotals={};
-  txList.filter(t=>t.type==='despesa'&&t.date>=sm3&&t.date<=em3).forEach(t=>{catTotals[t.cat]=(catTotals[t.cat]||0)+t.val;});
+  list.filter(t=>t.type==='despesa').forEach(t=>{catTotals[t.cat]=(catTotals[t.cat]||0)+t.val;});
   const catLabels=Object.keys(catTotals);
   const catVals=catLabels.map(k=>catTotals[k]);
   if(catLabels.length>0)renderPie('home-pie','home-pie-legend',catLabels,catVals,PIE_COLORS);
