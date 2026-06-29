@@ -309,9 +309,9 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
     <div class="period-wrap">
       <div class="period-head"><span>Período selecionado</span><button class="period-btn" onclick="openCal()"><i class="ti ti-calendar" style="font-size:13px;vertical-align:-2px"></i> Personalizar</button></div>
       <div class="period-pills">
-        <button class="pp on" onclick="setPeriod('today',this)">Hoje</button>
+        <button class="pp on" onclick="setPeriod('month',this)">Este mês</button>
         <button class="pp off" onclick="setPeriod('week',this)">Esta semana</button>
-        <button class="pp off" onclick="setPeriod('month',this)">Este mês</button>
+        <button class="pp off" onclick="setPeriod('today',this)">Hoje</button>
         <button class="pp off" onclick="setPeriod('custom',this)" id="pp-custom" style="display:none">Personalizado</button>
       </div>
     </div>
@@ -892,7 +892,9 @@ let compList=[
 
 let currentEmail='',pinValue='',txType='despesa';
 let compTab='normal',agendaFilter='all';
-let periodStart=null,periodEnd=null;
+const _now=new Date();
+let periodStart=`${_now.getFullYear()}-${String(_now.getMonth()+1).padStart(2,'0')}-01`;
+let periodEnd=today();
 
 function fmt(v){return'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2})}
 function fmtS(v){return'R$ '+Math.round(v).toLocaleString('pt-BR')}
