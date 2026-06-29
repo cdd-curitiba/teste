@@ -360,7 +360,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 
 <!-- EXTRATO -->
 <div class="screen" id="s-tx">
-  <div class="topbar"><span style="font-size:17px;font-weight:600;padding-left:4px">Extrato</span><button class="fab" onclick="openTxModal()" style="width:38px;height:38px;min-width:38px;display:flex;align-items:center;justify-content:center"><i class="ti ti-plus" style="font-size:18px;line-height:1"></i></button></div>
+  <div class="topbar"><span style="font-size:17px;font-weight:600;padding-left:4px">Extrato</span><div style="display:flex;align-items:center;gap:8px"><button onclick="openTxModal()" style="width:34px;height:34px;background:var(--p);border:none;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0"><i class="ti ti-plus" style="font-size:16px"></i></button><button onclick="openPerfilModal()" style="background:none;border:none;cursor:pointer;padding:4px;color:var(--mu)"><i class="ti ti-menu-2" style="font-size:22px"></i></button></div></div>
   <div class="pills">
     <button class="pill on" onclick="filterTx('all',this)">Todas</button>
     <button class="pill off" onclick="filterTx('receita',this)">Entradas</button>
@@ -396,7 +396,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 <div class="screen" id="s-cat">
   <div class="topbar">
     <span style="font-size:17px;font-weight:600;padding-left:4px">Categorias</span>
-    <button onclick="openNewCat()" style="background:var(--p);border:none;border-radius:10px;padding:7px 14px;color:#fff;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px"><i class="ti ti-plus" style="font-size:15px"></i> Nova</button>
+    <div style="display:flex;align-items:center;gap:8px"><button onclick="openNewCat()" style="width:34px;height:34px;background:var(--p);border:none;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0"><i class="ti ti-plus" style="font-size:16px"></i></button><button onclick="openPerfilModal()" style="background:none;border:none;cursor:pointer;padding:4px;color:var(--mu)"><i class="ti ti-menu-2" style="font-size:22px"></i></button></div>
   </div>
   <div class="sc">
     <div class="cat-summary">
@@ -422,7 +422,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 
 <!-- AGENDA -->
 <div class="screen" id="s-agenda">
-  <div class="topbar"><span style="font-size:17px;font-weight:600;padding-left:4px">Agenda</span><button class="fab sfab" onclick="openCompModal()"><i class="ti ti-plus" style="font-size:18px"></i></button></div>
+  <div class="topbar"><span style="font-size:17px;font-weight:600;padding-left:4px">Agenda</span><div style="display:flex;align-items:center;gap:8px"><button onclick="openCompModal()" style="width:34px;height:34px;background:var(--p);border:none;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0"><i class="ti ti-plus" style="font-size:16px"></i></button><button onclick="openPerfilModal()" style="background:none;border:none;cursor:pointer;padding:4px;color:var(--mu)"><i class="ti ti-menu-2" style="font-size:22px"></i></button></div></div>
   <div class="pills">
     <button class="pill on" onclick="filterAgenda('all',this)">Todos</button>
     <button class="pill off" onclick="filterAgenda('upcoming',this)">Próximos</button>
@@ -443,7 +443,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 <div class="screen" id="s-fixos">
   <div class="topbar">
     <span style="font-size:17px;font-weight:600;padding-left:4px">Gastos Fixos</span>
-    <button onclick="openNovoFixo()" style="background:var(--p);border:none;border-radius:10px;padding:7px 14px;color:#fff;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px"><i class="ti ti-plus" style="font-size:15px"></i> Novo</button>
+    <div style="display:flex;align-items:center;gap:8px"><button onclick="openNovoFixo()" style="width:34px;height:34px;background:var(--p);border:none;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0"><i class="ti ti-plus" style="font-size:16px"></i></button><button onclick="openPerfilModal()" style="background:none;border:none;cursor:pointer;padding:4px;color:var(--mu)"><i class="ti ti-menu-2" style="font-size:22px"></i></button></div>
   </div>
 
   <div class="sc">
@@ -486,7 +486,7 @@ body{background:#0d0d1a;color:var(--tx);font-family:-apple-system,BlinkMacSystem
 <div class="screen" id="s-carteira">
   <div class="topbar">
     <span style="font-size:17px;font-weight:600;padding-left:4px">Carteira</span>
-    <button onclick="openNovoCartao()" style="background:var(--p);border:none;border-radius:10px;padding:7px 14px;color:#fff;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px"><i class="ti ti-plus" style="font-size:15px"></i> Novo</button>
+    <div style="display:flex;align-items:center;gap:8px"><button onclick="openNovoCartao()" style="width:34px;height:34px;background:var(--p);border:none;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0"><i class="ti ti-plus" style="font-size:16px"></i></button><button onclick="openPerfilModal()" style="background:none;border:none;cursor:pointer;padding:4px;color:var(--mu)"><i class="ti ti-menu-2" style="font-size:22px"></i></button></div>
   </div>
   <div class="sc">
     <!-- Resumo -->
